@@ -36,4 +36,4 @@ services:
     volumes:
       - ./platform:/var/www/html
     ports:
-      - "9000:9000"
+      - "9000:80"
