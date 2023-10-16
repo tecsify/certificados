@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(certificados.tecsify.com)
+domains=(edu.tecsify.com)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="oscar@tecsify.com"
