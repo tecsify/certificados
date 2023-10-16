@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    environment:
+      - SECRET_KEY=CERTIFICADOSTECSIFY
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "5000"
+
+  nginx:
+    build:
+      context: ./nginx-dev
+    ports:
+      - "80:80"
+    restart: always
+
+  platform:
+    image: php:apache
+    volumes:
+      - ./platform:/var/www/html
+    ports:
+      - "9000:80"
