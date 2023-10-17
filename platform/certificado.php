@@ -321,7 +321,9 @@ $apiUrl .= '/' . $uuid;
     <a href="https://twitter.com/tecsify" id="share-ig" class="sharer button"><i class="fab fa-3x fa-twitter-square"></i></a>
     <a href="https://www.youtube.com/channel/UCalG-fWPHHWG-XTzhcCn0_A" id="share-ln" class="sharer button"><i class="fab fa-3x fa-youtube-square"></i></a>
 
-    <i class=""></i>
+   <br>
+   <br>
+   <br>
 </div>
     </div>
     </section>
