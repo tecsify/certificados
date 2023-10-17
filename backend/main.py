@@ -57,6 +57,10 @@ class CertificadosPorUsuario(db.Model):
     certificado_id = db.Column(db.Integer, db.ForeignKey("certificados.id"))
     usuario = db.relationship("Usuarios", backref="certificados_asociados")
     certificado = db.relationship("Certificados", backref="usuarios_asociados")
+    
+    @classmethod
+    def count_certificados(cls, usuario_id):
+        return cls.query.filter_by(usuario_id=usuario_id).count()
 
 
 with app.app_context():
@@ -397,10 +401,12 @@ def obtener_certificado_por_correo():
         return jsonify({"message": "Este usuario no tiene certificados"}), 404
 
     resultados = []
+    total_certificados = CertificadosPorUsuario.count_certificados(usuario.id)
     datos_usuario = {
         "nombre": usuario.nombre,
         "correo": usuario.correo,
         "id": usuario.id,
+        "total_certificados": total_certificados,
     }
     for certificado in certificado_por_usuario:
         data_cert = Certificados.query.filter_by(id=certificado.certificado_id).first()
