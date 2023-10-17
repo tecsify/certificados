@@ -9,7 +9,6 @@ import qrcode
 import re
 
 app = Flask(__name__)
-app.app_context().push()
 CORS(app)
 host = "/backend"
 
@@ -343,6 +342,44 @@ def obtener_certificado_por_usuario(certificado_id):
     )
 
     return diploma
+
+
+
+
+# Ruta para obtener información de un CertificadoPorUsuario por su UUID
+@app.route(host + "/certificado_por_id/<uuid:certificado_id>", methods=["GET"])
+def obtener_certificado_por_uuid(certificado_id):
+    certificado_por_usuario = CertificadosPorUsuario.query.filter_by(
+        id=str(certificado_id)
+    ).first()
+    if certificado_por_usuario is None:
+        return jsonify({"message": "Certificado no encontrado"}), 404
+
+    usuario = certificado_por_usuario.usuario
+    datos_usuario = {
+    "nombre": usuario.nombre,
+    "correo": usuario.correo,
+    "id": usuario.id,
+    }
+    certificado = certificado_por_usuario.certificado
+    resultados = []
+
+    if certificado:
+        resultados.append(
+            {
+                "id": certificado_por_usuario.id,
+                "certificado_id": certificado_por_usuario.certificado_id,
+                "nombre_certificado": certificado.nombre_certificado,
+                "certificado_impartido": certificado.impartido_por,
+                "evento": certificado.evento_perteneciente,
+                "fecha_certificado": certificado.fecha,
+                
+            }
+        )
+        
+        return jsonify({"datos_usuario": datos_usuario, "certificados": resultados}), 200
+    return jsonify({"message": "Certificado no encontrado"}), 404
+
 
 
 # Ruta para obtener información de un CertificadoPorUsuario por su UUID
