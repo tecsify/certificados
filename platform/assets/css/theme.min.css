@@ -16,7 +16,7 @@ h4, .h4 { font-size: 1.5rem; }
 h5, .h5 { font-size: 1.25rem; }
 h6, .h6 { font-size: 1rem; }
 h4, h5, h6, .h4, .h5, .h6 { font-weight: 500; }
-p { color: #8090b5; line-height: 1.7; }
+p { color: #8090b5; line-height: 1; }
 .lead { font-size: 1.25rem; font-weight: 300; }
 .text-dark{color: #1d1d33 !important;}
 .text-primary {color: #030399 !important;}

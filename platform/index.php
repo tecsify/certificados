@@ -6,21 +6,21 @@
     <!-- meta tags -->
     <meta charset="utf-8">
     <meta name="keywords" content="Tecsify Latinoamerica, ¡Tecnologia que empodera!" />
-    <meta name="description" content="¡Bienvenido a Tecsify! ¡No te pierdas nuestras infografías, blogs y códigos interactivos!" />
+    <meta name="description" content="Bienvenido al portal de certificados de Tecsify, aquí encontrarás todos tus certificados" />
     <meta name="author" content="www.Tecsify.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="product.group">
-    <meta property="og:title" content="Tecsify ¡Tecnología que empodera!">
-    <meta property="og:url" content="tecsify.com">
+    <meta property="og:title" content="Certificados Tecsify ¡Tecnología que empodera!">
+    <meta property="og:url" content="certificados.tecsify.com">
     <meta property="og:image" content="https://tecsify.com/blog/wp-content/uploads/2020/11/perfil-1-150x150.jpg">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@tecsify">
-    <meta name="twitter:title" content="Tecsify Latinoamérica ¡Tecnología que empodera!">
-    <meta name="twitter:description" content="¡Bienvenido a Tecsify! ¡No te pierdas nuestras infografías, blogs y códigos interactivos!">
+    <meta name="twitter:title" content="Certificados Tecsify - Tecnología que empodera">
+    <meta name="twitter:description" content="Bienvenido al portal de certificados de Tecsify, aquí encontrarás todos tus certificados">
 
     <!-- Title -->
-    <title>Tecsify - Tecnología que empodera</title>
+    <title>Certificados Tecsify - Tecnología que empodera</title>
 
     <!-- Favicon Icon -->
     <link rel="shortcut icon" href="assets/images/favic.png" sizes="32x32" />
@@ -66,13 +66,14 @@
                                 <div class="collapse navbar-collapse" id="navbarNav">
                                     <ul class="navbar-nav ml-auto">
 
-                                        <li class="nav-item active"> <a class="nav-link  active" href="https://tecsify.com/">Inicio</a></li>
+                                        <li class="nav-item active"> <a class="nav-link  active" href="/">Certificados</a></li>
+                                        <li class="nav-item"> <a class="nav-link" href="https://tecsify.com/">Inicio</a></li>
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Sobre Nosotros
                                             </a>
                                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <li><a class="dropdown-item" href="#">Acerca de Tecsify</a></li>
+                                                <li><a class="dropdown-item" href="https://tecsify.com/info">Acerca de Tecsify</a></li>
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
@@ -88,7 +89,7 @@
 
                                     </ul>
                                 </div>
-                            </nav> <a class="btn btn-primary ml-8 d-none d-lg-block" href="https://www.buymeacoffee.com/tecsify">¡Donar ahora!</a>
+                            </nav> 
                         </div>
                     </div>
                 </div>
@@ -100,7 +101,7 @@
         <!--hero section start-->
 
         <style>
-            .efecto_certi{
+            .efecto_certi {
                 transition: 0.30s all ease-in-out;
 
             }
@@ -108,8 +109,9 @@
             .efecto_certi:hover {
                 transform: scale(0.935);
                 box-shadow: 0 0 11px rgba(3, 3, 153, 0.3);
-                border:rgba(3, 3, 153, 0.8)
+                border: rgba(3, 3, 153, 0.8)
             }
+
             .sombra {
                 transition: 0.10s all ease-in-out;
             }
@@ -130,16 +132,20 @@
             .sombra:hover {
                 transform: scale(1.005);
                 box-shadow: 0 0 11px rgba(3, 3, 153, 0.3);
-                border:rgba(3, 3, 153, 0.8)
+                border: rgba(3, 3, 153, 0.8)
             }
 
             .sombra:hover .zoom-image {
                 transform: rotate(-0.5deg) scale(1.05);
             }
 
+            .brsalto{
+                    margin-bottom: 0.1rem;
+                }
+
             .main {
-                width: 27rem;
-                height: 27rem;
+                width: 22.3rem;
+                height: 22.3rem;
                 position: absolute;
                 top: 2.1rem;
                 bottom: 0;
@@ -168,6 +174,9 @@
 
 
             @media only screen and (max-width: 900px) {
+                .brsalto{
+                    margin-bottom: 2rem;
+                }
 
                 #blog-card-3,
                 #blog-card-4,
@@ -205,7 +214,7 @@
             <div class="container">
                 <div class="row align-items-center">
 
-                    <div class="col-12 col-lg-5 col-lg-6 order-lg-1 mb-8 mb-lg-0" id="mainmundo">
+                    <div class="col-12 col-lg-5 col-lg-5 order-lg-1 mb-8 mb-lg-0" id="mainmundo">
                         <div id="particles-js"></div>
 
                         <!-- Image -->
@@ -219,7 +228,8 @@
 
                         <!-- Heading -->
                         <img src="assets/artes/latamworld.png" class="img-fluid" id="worldmobile" style="width: 50%; height: auto;display: none;" alt="...">
-                        <br><br>
+                        <br>
+                        <br class='brsalto'>
                         <h5 class="badge badge-primary-soft font-w-6">En Tecsify somos</h5>
                         <br>
                         <h2 class="display-6">
@@ -246,11 +256,13 @@
 
         <section id="seccionresultado" style="display: none; text-align:  center;"">
         <div class=" col-md-12" id="results">
+            <hr>
             <h2>Datos del Usuario:</h2>
             <p id="nombre-usuario"></p>
             <p id="correo-usuario"></p>
-            <p id="id-usuario"></p>
-            <h2 style="color: rgba(3, 3, 153)">Certificados:</h2>
+            <p>¡Felicidades! tienes un total de: <span style="color: rgba(3,3,153)" id="span_cantidad">0</span> certificados aprobados por Tecsify</p>
+
+            <hr>
             <br>
             <div class="row justify-content-center" id="certificates">
                 <!-- Certificados se mostrarán aquí como tarjetas de Bootstrap -->
@@ -293,6 +305,7 @@
                     $.ajax({
                         type: 'POST',
                         url: 'https://certificados.tecsify.com/backend/certificados_por_correo', // Reemplaza con la URL de tu API
+                        //url: 'http://localhost/backend/certificados_por_correo', // Reemplaza con la URL de tu API
                         data: JSON.stringify({
                             correo: correo
                         }),
@@ -311,7 +324,9 @@
                                 $('#seccionresultado').show();
 
                                 // Agrega información del usuario
-                                $('#nombre-usuario').text('Nombre del usuario: ' + datos_usuario.nombre);
+                                $('#nombre-usuario').text('Nombre: ' + datos_usuario.nombre);
+                                $('#span_cantidad').text('' + datos_usuario.total_certificados);
+
                                 $('#correo-usuario').text('Correo: ' + datos_usuario.correo);
                                 // Crea tarjetas de certificados
                                 var certificatesContainer = $('#certificates');
@@ -321,13 +336,15 @@
                                     var fecha = new Date(certificado.fecha_certificado);
                                     var fechaFormateada = fecha.toLocaleDateString('es-ES');
 
-                                    var card = $('<div class="col-md-4 mb-3 "></div>');
+                                    var card = $('<div class="col-md-4 mb-3 py-2"></div>');
                                     card.html(
-                                        '<div class="card efecto_certi">' +
-                                        '<div class="card-body">' +
+                                        '<div class="card h-100 efecto_certi">' +
+                                        '<div class="card-body d-flex flex-column">' +
                                         '<h6 class="card-title">' + certificado.nombre_certificado + '</h6>' +
                                         '<p class="card-text">Evento: ' + certificado.evento + '<br>Fecha de Certificado: ' + fechaFormateada + '</p>' +
+                                        '<div class="mt-auto text-center"> <!-- Agrega mt-auto y text-center para alinear el botón al final y centrado -->' +
                                         '<a href="/certificado/' + certificado.id + '" class="btn btn-primary" target="_blank">Ver Certificado</a>' +
+                                        '</div>' +
                                         '</div>' +
                                         '</div>'
                                     );
