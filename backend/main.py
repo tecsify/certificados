@@ -7,14 +7,15 @@ import textwrap
 import uuid
 import qrcode
 import re
+import csv
+from datetime import datetime
+import io
 
 app = Flask(__name__)
 CORS(app)
 host = "/backend"
 
-app.config[
-    "SQLALCHEMY_DATABASE_URI"
-] = "mysql+pymysql://sql9653294:1zK2mUrWff@sql9.freemysqlhosting.net:3306/sql9653294"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
 db = SQLAlchemy(app)
 
 
@@ -68,7 +69,7 @@ def generar_diploma(nombre, charla, id_cert):
 
     # Obtén la ruta del directorio actual
     toFilePath = os.path.dirname(os.path.abspath(__file__))
-    arial_font = os.path.join(toFilePath, 'arial.ttf')
+    arial_font = os.path.join(toFilePath, "arial.ttf")
 
     # Carga la imagen base del diploma
     empty_img = Image.open(os.path.join(toFilePath, "diploma.jpg"))
@@ -319,7 +320,6 @@ def obtener_certificados_tots():
                 "id": certificado.id,
                 "certificado_id": certificado.certificado_id,
                 "usuario_id": certificado.usuario_id,
-                
             }
         )
     return jsonify(resultados)
@@ -344,8 +344,6 @@ def obtener_certificado_por_usuario(certificado_id):
     return diploma
 
 
-
-
 # Ruta para obtener información de un CertificadoPorUsuario por su UUID
 @app.route(host + "/certificado_por_id/<uuid:certificado_id>", methods=["GET"])
 def obtener_certificado_por_uuid(certificado_id):
@@ -357,9 +355,9 @@ def obtener_certificado_por_uuid(certificado_id):
 
     usuario = certificado_por_usuario.usuario
     datos_usuario = {
-    "nombre": usuario.nombre,
-    "correo": usuario.correo,
-    "id": usuario.id,
+        "nombre": usuario.nombre,
+        "correo": usuario.correo,
+        "id": usuario.id,
     }
     certificado = certificado_por_usuario.certificado
     resultados = []
@@ -373,26 +371,28 @@ def obtener_certificado_por_uuid(certificado_id):
                 "certificado_impartido": certificado.impartido_por,
                 "evento": certificado.evento_perteneciente,
                 "fecha_certificado": certificado.fecha,
-                
             }
         )
-        
-        return jsonify({"datos_usuario": datos_usuario, "certificados": resultados}), 200
-    return jsonify({"message": "Certificado no encontrado"}), 404
 
+        return (
+            jsonify({"datos_usuario": datos_usuario, "certificados": resultados}),
+            200,
+        )
+    return jsonify({"message": "Certificado no encontrado"}), 404
 
 
 # Ruta para obtener información de un CertificadoPorUsuario por su UUID
 @app.route(host + "/certificados_por_correo", methods=["POST"])
 def obtener_certificado_por_correo():
     correo = str(request.json["correo"]).lower()
-    
+
     usuario = Usuarios.query.filter_by(correo=correo).first()
     if not usuario:
         return jsonify({"message": "Usuario no encontrado"}), 404
 
-    
-    certificado_por_usuario = CertificadosPorUsuario.query.filter_by(usuario_id = usuario.id).all()
+    certificado_por_usuario = CertificadosPorUsuario.query.filter_by(
+        usuario_id=usuario.id
+    ).all()
     if not certificado_por_usuario:
         return jsonify({"message": "Este usuario no tiene certificados"}), 404
 
@@ -413,27 +413,20 @@ def obtener_certificado_por_correo():
                     "certificado_impartido": data_cert.impartido_por,
                     "evento": data_cert.evento_perteneciente,
                     "fecha_certificado": data_cert.fecha,
-                    
                 }
             )
-            
+
     return jsonify({"datos_usuario": datos_usuario, "certificados": resultados})
 
 
 
-# Ruta para crear un CertificadoPorUsuario
-@app.route(host + "/crear_certificado_por_usuario", methods=["POST"])
-def crear_certificado_por_usuario():
-    # Obtén los datos del formulario enviado
-    usuario_id = int(request.form["usuario_id"])
-    certificado_id = int(request.form["certificado_id"])
-
+def crear_certificado_por_usuario(usuario_id, certificado_id):
     # Verifica si el usuario y el certificado existen
     usuario = Usuarios.query.filter_by(id=usuario_id).first()
     certificado = Certificados.query.filter_by(id=certificado_id).first()
 
     if usuario is None or certificado is None:
-        return "Usuario o certificado no encontrado", 404
+        return 1 #"Usuario o certificado no encontrado"
 
     # Verifica si el usuario ya tiene este certificado
     certificado_por_usuario_existente = CertificadosPorUsuario.query.filter_by(
@@ -441,7 +434,7 @@ def crear_certificado_por_usuario():
     ).first()
 
     if certificado_por_usuario_existente:
-        return "El usuario ya tiene este certificado", 409
+        return 2 #"El usuario ya tiene este certificado"
 
     while True:
         # Generar un nuevo UUID
@@ -471,7 +464,7 @@ def crear_certificado_por_usuario():
         usuario.nombre, certificado.nombre_certificado, diploma_id
     )
 
-    return jsonify({"message": "Certificado creado: " + rutadiploma}), 201
+    return 3 #exito
 
 
 @app.route(host + "/diploma/<uuid>")
@@ -481,6 +474,150 @@ def servir_diploma(uuid):
         return send_file(ruta_diploma)
     else:
         return jsonify({"message": "Diploma no encontrado: "}), 404
+
+
+######################## Funciones de carga de datos:
+
+
+@app.route(host + "/importar_certificados", methods=["POST"])
+def importar_certificados():
+    try:
+        # Verifica si se ha enviado un archivo CSV
+        if "csv_file" not in request.files:
+            return jsonify({"message": "No se ha proporcionado un archivo CSV."}), 400
+
+        file = request.files["csv_file"]
+
+        # Verifica si el archivo tiene un nombre y es un archivo CSV
+        if file.filename == "" or not file.filename.endswith(".csv"):
+            return (
+                jsonify({"message": "Por favor, seleccione un archivo CSV válido."}),
+                400,
+            )
+
+        # Lee el contenido del archivo CSV
+        csv_data = io.StringIO(file.read().decode("utf-8"))
+        csv_reader = csv.DictReader(csv_data)
+
+        for row in csv_reader:
+            if len(row["nombre_certificado"]) < 3 or len(row["impartido_por"]) < 3:
+                continue
+            fecha_str = row["fecha"]
+
+            # Verifica si el campo de fecha no está vacío
+            if fecha_str:
+                fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date()
+            else:
+                fecha = datetime.now()
+
+            certificado = Certificados(
+                nombre_certificado=row["nombre_certificado"],
+                fecha=fecha,
+                impartido_por=row["impartido_por"],
+                evento_perteneciente=row["evento_perteneciente"],
+                estado=1,
+            )
+
+            db.session.add(certificado)
+
+        db.session.commit()
+        return jsonify({"message": "Certificados importados con éxito."}), 201
+    except Exception as e:
+        return jsonify({"message": str(e)}), 400
+
+
+@app.route(host + "/importar_usuarios", methods=["POST"])
+def importar_usuarios():
+    try:
+        # Verifica si se ha enviado un archivo CSV
+        if "csv_file" not in request.files:
+            return jsonify({"message": "No se ha proporcionado un archivo CSV."}), 400
+
+        file = request.files["csv_file"]
+
+        # Verifica si el archivo tiene un nombre y es un archivo CSV
+        if file.filename == "" or not file.filename.endswith(".csv"):
+            return (
+                jsonify({"message": "Por favor, seleccione un archivo CSV válido."}),
+                400,
+            )
+
+        # Lee el contenido del archivo CSV
+        csv_data = io.StringIO(file.read().decode("utf-8"))
+        csv_reader = csv.DictReader(csv_data)
+
+        for row in csv_reader:
+            if len(row["nombre"]) < 3 or len(row["identificacion"]) < 3:
+                continue
+            # Encuentra el usuario por identificación o correo
+            usuario = Usuarios.query.filter(
+                (Usuarios.correo == row["correo"])
+                | (Usuarios.identificacion == row["identificacion"])
+            ).first()
+
+            if not usuario:
+                # Crea un nuevo usuario si no existe
+                nuevo_usuario = Usuarios(
+                    nombre=row["nombre"],
+                    correo=row["correo"],
+                    identificacion=row["identificacion"],
+                    telefono=row["telefono"],
+                    estado=1,
+                )
+                db.session.add(nuevo_usuario)
+
+        # Guarda los cambios en la base de datos
+        db.session.commit()
+        return jsonify({"message": "Certificados importados con éxito."}), 201
+    except Exception as e:
+        return jsonify({"message": str(e)}), 400
+
+
+@app.route(host + "/importar_uc", methods=["POST"])
+def importar_usuarios_certificados():
+    try:
+        # Verifica si se ha enviado un archivo CSV
+        if "csv_file" not in request.files:
+            return jsonify({"message": "No se ha proporcionado un archivo CSV."}), 400
+
+        file = request.files["csv_file"]
+
+        # Verifica si el archivo tiene un nombre y es un archivo CSV
+        if file.filename == "" or not file.filename.endswith(".csv"):
+            return (
+                jsonify({"message": "Por favor, seleccione un archivo CSV válido."}),
+                400,
+            )
+
+        # Lee el contenido del archivo CSV
+        csv_data = io.StringIO(file.read().decode("utf-8"))
+        csv_reader = csv.DictReader(csv_data)
+        errores = []
+        for row in csv_reader:
+            if len(row["nombre"]) < 3 or len(row["identificacion"]) < 3:
+                continue
+            # Encuentra el usuario por identificación o correo
+            usuario = Usuarios.query.filter(
+                (Usuarios.correo == row["correo"])
+                | (Usuarios.identificacion == row["identificacion"])
+            ).first()
+
+            if usuario:
+                creacion = crear_certificado_por_usuario(usuario.id,row['certificado_id'])
+                if creacion == 1 or creacion == 2:
+                    errores.append(
+                        {
+                            "usuario_id": usuario.id,
+                            "certificado_id": row['certificado_id'],
+                            "error": creacion
+                        }
+                    )
+                
+
+        return jsonify({"message": "Certificados importados con éxito.", "errores": errores}), 201
+    except Exception as e:
+        return jsonify({"message": str(e)}), 400
+
 
 
 if __name__ == "__main__":
