@@ -19,6 +19,8 @@ services:
       - SQLALCHEMY_DATABASE_URI=mysql+pymysql://root:tecsifypasswordgenerico@mysql:3306/certificados_tecsify
     ports:
       - "5000"
+    volumes:
+      - ./backend:/backend
 
   nginx:
     build:
