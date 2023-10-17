@@ -328,24 +328,6 @@ $apiUrl .= '/' . $uuid;
     </div>
     </section>
 
-
-
-    <!--body content start-->
-
-    <div class="page-content">
-
-        <!--feature start-->
-
-
-
-        <!--back-to-top start-->
-
-        <div class="scroll-top"><a class="smoothscroll" href="#top"><i class="las la-angle-up"></i></a></div>
-
-        <!--back-to-top end-->
-
-        <!-- inject js start -->
-
         <script src="../assets/js/theme-plugin.js"></script>
         <script src="../assets/js/theme-script.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
