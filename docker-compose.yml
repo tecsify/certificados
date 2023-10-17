@@ -16,6 +16,7 @@ services:
       context: ./backend
     environment:
       - SECRET_KEY=CERTIFICADOSTECSIFY
+      - SQLALCHEMY_DATABASE_URI=mysql+pymysql://root:tecsifypasswordgenerico@mysql:3306/certificados_tecsify
     ports:
       - "5000"
 
