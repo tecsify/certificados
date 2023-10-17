@@ -1,6 +1,16 @@
-version: '3'
+version: '3.7'
 
 services:
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=tecsifypasswordgenerico
+      - MYSQL_DATABASE=certificados_tecsify
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
   backend:
     build:
       context: ./backend
