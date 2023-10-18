@@ -140,7 +140,7 @@
             }
 
             .brsalto{
-                    margin-bottom: 0.1rem;
+                    margin-bottom: 0.01rem;
                 }
 
             .main {
@@ -304,8 +304,8 @@
                     // Realiza una solicitud AJAX a la API
                     $.ajax({
                         type: 'POST',
-                        url: 'https://certificados.tecsify.com/backend/certificados_por_correo', // Reemplaza con la URL de tu API
-                        //url: 'http://localhost/backend/certificados_por_correo', // Reemplaza con la URL de tu API
+                        //url: 'https://certificados.tecsify.com/backend/certificados_por_correo', // Reemplaza con la URL de tu API
+                        url: 'http://localhost/backend/certificados_por_correo', // Reemplaza con la URL de tu API
                         data: JSON.stringify({
                             correo: correo
                         }),
