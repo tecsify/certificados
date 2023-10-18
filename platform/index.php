@@ -245,7 +245,8 @@
                                 <br> <button class="btn btn-primary" type="submit">Buscar mis certificados</button>
 
                             </div>
-
+                            <br>
+                            <small>Al usar nuestros servicios, estás de acuerdo con nuestros <a href="/terminos/"> Términos y condiciones</a> y nuestro <a href="https://tecsify.com/blog/conducta-y-privacidad/">Código de Conducta. </a>😊</small>
                         </form>
                     </div>
                 </div>

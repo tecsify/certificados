@@ -218,6 +218,9 @@
             <div class="col-md-10">
                 <div>
                     <br>
+                    <small style='font-weight:600;'><a href="/">← Regresar a la página de certificados</a></small>
+                    <br>
+                    <br>
                     <h1><strong>Política de Privacidad y Política de Datos de Tecsify</strong></h1>
 
                     <p><strong>Última actualización:</strong> 06 de mayo de 2023</p>
@@ -260,7 +263,7 @@
 
                     <h2><strong>7. Contacto</strong></h2>
 
-                    <p>Si tiene alguna pregunta o inquietud relacionada con esta política, o si desea ejercer sus derechos de privacidad, póngase en contacto con nosotros a través de <a href="mailto:certificados@tecsify.com"><strong>certificados@tecsify.com</strong></a>.</p>
+                    <p>Si tiene alguna pregunta o inquietud relacionada con esta política, o si desea ejercer sus derechos de privacidad, póngase en contacto con nosotros a través de <a href="mailto:contacto@tecsify.com"><strong>contacto@tecsify.com</strong></a>.</p>
 
                     <p>Esta <strong>Política de Privacidad y Política de Datos</strong> refleja nuestro compromiso con la privacidad y la protección de sus datos personales. Le recomendamos que la lea detenidamente y la revise periódicamente para mantenerse informado sobre nuestras prácticas de privacidad. Gracias por confiar en Tecsify.</p>
 
