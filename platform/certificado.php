@@ -247,6 +247,10 @@ $apiUrl .= '/' . $uuid;
                     text-align: center !important;
                 }
 
+                #shareWhatsappButton{
+                    display: inline-block !important;
+                }
+
             }
 
             .titulo {
@@ -307,7 +311,8 @@ $apiUrl .= '/' . $uuid;
                         echo "<div class='col-md-5' style='text-align: center;'> ";
                         // Solicita la imagen del diploma
                         $imageData = file_get_contents($diplomaUrl . $uuid);
-
+                        $currentURL = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+                        
                         // Convierte los datos de la imagen a base64
                         $base64Image = base64_encode($imageData);
 
@@ -353,7 +358,9 @@ $apiUrl .= '/' . $uuid;
                             <a href='#' id='shareLinkedInButton' class='sharer button'><i class='fa-brands fa-2x fa-linkedin'></i></a>
                             <a href='#' id='shareTwitterButton' class='sharer button'><i class='fab fa-2x fa-twitter-square'></i></a>
                             <a href='#' id='shareFacebookButton' class='sharer button'><i class='fab fa-2x fa-facebook-square'></i></a>
-                           
+                            <a  style='display:none;' href='whatsapp://send?text=¡Mira este increíble certificado de Tecsify! sobre ".$data['certificados'][0]['nombre_certificado'].". ". $currentURL ."' id='shareWhatsappButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
+     
+
                       </div>";
                         echo "</div>";
                         echo "</div>";
