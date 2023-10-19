@@ -8,8 +8,8 @@ $diplomaUrl = 'http://backend:5000/backend/diploma/';
 // Obtén el UUID desde la URL
 $uuid = $_GET['uuid'];
 
-if (! isset($uuid) || $uuid == '') {
-   header('Location: /');
+if (!isset($uuid) || $uuid == '') {
+    header('Location: /');
 }
 
 // Agrega el UUID a la URL de la API
@@ -29,10 +29,14 @@ $apiUrl .= '/' . $uuid;
     <meta name="author" content="www.Tecsify.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
-    <meta property="og:type" content="product.group">
+    <meta property="og:type" content="website">
     <meta property="og:title" content="Certificados Tecsify ¡Tecnología que empodera!">
     <meta property="og:url" content="certificados.tecsify.com">
     <meta property="og:image" content="https://tecsify.com/blog/wp-content/uploads/2020/11/perfil-1-150x150.jpg">
+
+    <meta property="og:title" content="Certificados Tecsify - Tecnología que empodera" />
+    <meta property="og:description" content="¡Estoy muy contento de compartir mi certificado de Tecsify" />
+
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@tecsify">
     <meta name="twitter:title" content="Certificados Tecsify - Tecnología que empodera">
@@ -224,20 +228,21 @@ $apiUrl .= '/' . $uuid;
                     display: initial !important;
                 }
 
-                #datos-cert{
+                #datos-cert {
                     text-align: center !important;
                 }
-                #datos-cert h2{
+
+                #datos-cert h2 {
                     margin-bottom: 2rem;
                 }
 
-                #datos-cert span{
-                    display: block; 
+                #datos-cert span {
+                    display: block;
                     margin-top: 0.3rem;
                     margin-bottom: 1.2rem;
                 }
 
-                #redescompartir{
+                #redescompartir {
                     text-align: center !important;
                 }
 
@@ -271,10 +276,19 @@ $apiUrl .= '/' . $uuid;
                     exit; // O puedes mostrar un mensaje adicional si lo deseas
                 }
 
-                
+
                 if ($response === false) {
                     // Error al conectarse a la API
-                   echo "<div style='text-align:center;'><h2 style='text-align:center;'>Este certificado no existe</h2>
+                    echo "
+                   
+                   <div style='text-align:center;'>
+                
+                   <br>
+                   <small style='font-weight:600;'><a href='/'>← Regresar a la página de certificados</a></small>
+                   <br>
+
+                   <h2 style='text-align:center;'>Este certificado no existe</h2>
+                   
                    <p>Pero... ¡No te preocupes!..
                    <br><br>
                    <img class='img-fluid' src='../assets/images/404.png' style='width:25rem;'/>
@@ -316,7 +330,7 @@ $apiUrl .= '/' . $uuid;
 
                         echo "<p>Nombre: <span class='titulo'>" . $data['datos_usuario']['nombre'] . "</span></p>";
                         echo "<p>Código único de Certificado:<span class='titulo'> " . $data['certificados'][0]['id'] . "</span></p>";
-                        echo "<p>Nombre del Certificado: <span class='titulo'>" . $data['certificados'][0]['nombre_certificado'] . "</span></p>";
+                        echo "<p>Nombre del Certificado: <span id='nombre_certificado' name='nombre_certificado' class='titulo'>" . $data['certificados'][0]['nombre_certificado'] . "</span></p>";
 
                         // Formatea la fecha
                         $fecha = new DateTime($data['certificados'][0]['fecha_certificado']);
@@ -391,7 +405,6 @@ $apiUrl .= '/' . $uuid;
 
 
     <script>
-        
         // Función para abrir el modal y mostrar la imagen
         document.getElementById('certificadotecsify').addEventListener('click', function() {
             // Obtén la URL de la imagen
@@ -405,22 +418,37 @@ $apiUrl .= '/' . $uuid;
         });
 
         document.getElementById('shareLinkedInButton').addEventListener('click', function() {
+            // Obtiene el título de la charla o el contenido que deseas compartir
+            const charlaTitle = $("#nombre_certificado").attr("name");
+
+            // Crea el mensaje personalizado
+            var shareMessage = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
+
             // Obtiene la URL actual del navegador
             var currentURL = window.location.href;
 
-            // Crea la URL de compartir en LinkedIn
-            var linkedInShareURL = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(currentURL);
+            // Crea la URL de compartir en LinkedIn con el mensaje personalizado
+            var linkedInShareURL = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(currentURL) + '&summary=' + encodeURIComponent(shareMessage);
 
             // Abre una nueva ventana o pestaña con la URL de compartir en LinkedIn
             window.open(linkedInShareURL, '_blank');
         });
 
+
+
+
         document.getElementById('shareTwitterButton').addEventListener('click', function() {
+            // Obtiene el título de la charla o el contenido que deseas compartir
+            const charlaTitle = $("#nombre_certificado").attr("name");
+
+            // Crea el texto de la publicación
+            var shareText = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
+
             // Obtiene la URL actual del navegador
             var currentURL = window.location.href;
 
-            // Crea la URL de compartir en Twitter
-            var twitterShareURL = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(currentURL);
+            // Crea la URL de compartir en Twitter con el texto de la publicación
+            var twitterShareURL = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(currentURL) + '&text=' + encodeURIComponent(shareText);
 
             // Abre una nueva ventana o pestaña con la URL de compartir en Twitter
             window.open(twitterShareURL, '_blank');
@@ -428,18 +456,21 @@ $apiUrl .= '/' . $uuid;
 
 
         document.getElementById('shareFacebookButton').addEventListener('click', function() {
+            // Obtiene el título de la charla o el contenido que deseas compartir
+            const charlaTitle = $("#nombre_certificado").attr("name");
+
+            // Crea el texto de la publicación
+            var shareText = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
+
             // Obtiene la URL actual del navegador
             var currentURL = window.location.href;
 
-            // Crea la URL de compartir en Facebook
-            var facebookShareURL = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(currentURL);
+            // Crea la URL de compartir en Facebook con el texto de la publicación
+            var facebookShareURL = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(currentURL) + '&quote=' + encodeURIComponent(shareText);
 
             // Abre una nueva ventana o pestaña con la URL de compartir en Facebook
             window.open(facebookShareURL, '_blank');
         });
-
-
-
 
 
 
@@ -464,7 +495,7 @@ $apiUrl .= '/' . $uuid;
 
                 // Nombre del archivo PDF generado
                 const pdfFileName = name_id + '.pdf';
-                Swal.fire('¡Certificado descargado!', "Se ha guardado tu certificado como PDF:<br> <small>Nombre: <strong>"+pdfFileName +"</strong><small>", "success");
+                Swal.fire('¡Certificado descargado!', "Se ha guardado tu certificado como PDF:<br> <small>Nombre: <strong>" + pdfFileName + "</strong><small>", "success");
 
 
 
@@ -482,7 +513,7 @@ $apiUrl .= '/' . $uuid;
 
                 // Simula un clic en el enlace para iniciar la descarga
                 a.click();
-                Swal.fire('¡Certificado descargado!', "Se ha guardado tu certificado como Imágen:<br> <small>Nombre: <small><strong>"+name_id + '.jpg'+"</strong><small>", "success");
+                Swal.fire('¡Certificado descargado!', "Se ha guardado tu certificado como Imágen:<br> <small>Nombre: <small><strong>" + name_id + '.jpg' + "</strong><small>", "success");
 
             }
         });
