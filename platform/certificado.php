@@ -33,6 +33,7 @@ $apiUrl .= '/' . $uuid;
     <meta property="og:title" content="Certificados Tecsify ¡Tecnología que empodera!">
     <meta property="og:url" content="certificados.tecsify.com">
     <meta property="og:image" content="https://tecsify.com/blog/wp-content/uploads/2020/11/perfil-1-150x150.jpg">
+    <meta property="og:site_name" content="Tecsify" />
 
     <meta property="og:title" content="Certificados Tecsify - Tecnología que empodera" />
     <meta property="og:description" content="¡Estoy muy contento de compartir mi certificado de Tecsify" />
@@ -419,7 +420,7 @@ $apiUrl .= '/' . $uuid;
 
         document.getElementById('shareLinkedInButton').addEventListener('click', function() {
             // Obtiene el título de la charla o el contenido que deseas compartir
-            var charlaTitle = $("#nombre_certificado").attr("name");
+            var charlaTitle = $("#nombre_certificado").text();
 
             // Crea el mensaje personalizado
             var shareMessage = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
@@ -435,14 +436,12 @@ $apiUrl .= '/' . $uuid;
         });
 
 
-
-
         document.getElementById('shareTwitterButton').addEventListener('click', function() {
             // Obtiene el título de la charla o el contenido que deseas compartir
-            var charlaTitle = $("#nombre_certificado").attr("name");
+            var charlaTitle = $("#nombre_certificado").text();
 
-            // Crea el texto de la publicación
-            var shareText = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
+            // Crea el texto de la publicación con un salto de línea
+            var shareText = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "%0A" + "¡Tecsify es tecnología que empodera!%0A";
 
             // Obtiene la URL actual del navegador
             var currentURL = window.location.href;
@@ -457,7 +456,7 @@ $apiUrl .= '/' . $uuid;
 
         document.getElementById('shareFacebookButton').addEventListener('click', function() {
             // Obtiene el título de la charla o el contenido que deseas compartir
-            var charlaTitle = $("#nombre_certificado").attr("name");
+            var charlaTitle = $("#nombre_certificado").text();
 
             // Crea el texto de la publicación
             var shareText = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
