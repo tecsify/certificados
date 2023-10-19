@@ -441,7 +441,7 @@ $apiUrl .= '/' . $uuid;
             var charlaTitle = $("#nombre_certificado").text();
 
             // Crea el texto de la publicación con un salto de línea
-            var shareText = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "%0A" + "¡Tecsify es tecnología que empodera!%0A";
+            var shareText = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle;
 
             // Obtiene la URL actual del navegador
             var currentURL = window.location.href;
@@ -465,7 +465,7 @@ $apiUrl .= '/' . $uuid;
             var currentURL = window.location.href;
 
             // Crea la URL de compartir en Facebook con el texto de la publicación
-            var facebookShareURL = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(currentURL) + '&quote=' + encodeURIComponent(shareText);
+            var facebookShareURL = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(currentURL) + '&quote=' + encodeURIComponent(shareText) + '&hashtag=Tecsify';
 
             // Abre una nueva ventana o pestaña con la URL de compartir en Facebook
             window.open(facebookShareURL, '_blank');
