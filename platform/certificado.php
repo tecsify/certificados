@@ -8,6 +8,10 @@ $diplomaUrl = 'http://backend:5000/backend/diploma/';
 // Obtén el UUID desde la URL
 $uuid = $_GET['uuid'];
 
+if (! isset($uuid) || $uuid == '') {
+   header('Location: /');
+}
+
 // Agrega el UUID a la URL de la API
 $apiUrl .= '/' . $uuid;
 
@@ -220,13 +224,35 @@ $apiUrl .= '/' . $uuid;
                     display: initial !important;
                 }
 
+                #datos-cert{
+                    text-align: center !important;
+                }
+                #datos-cert h2{
+                    margin-bottom: 2rem;
+                }
 
+                #datos-cert span{
+                    display: block; 
+                    margin-top: 0.3rem;
+                    margin-bottom: 1.2rem;
+                }
+
+                #redescompartir{
+                    text-align: center !important;
+                }
 
             }
 
-            .titulo{
+            .titulo {
                 font-weight: 500;
-                color:black;
+                color: black;
+            }
+
+            .descargar-certificado {
+                background-color: rgb(3, 3, 153);
+                color: white;
+                border: none;
+                border-radius: 0.5rem;
             }
         </style>
 
@@ -235,12 +261,25 @@ $apiUrl .= '/' . $uuid;
             <div class="container">
 
                 <?php
+                error_reporting(0);
                 // Realiza la solicitud GET a la API
-                $response = file_get_contents($apiUrl);
+                try {
+                    $response = file_get_contents($apiUrl);
+                } catch (Exception $e) {
+                    // Error al conectarse a la API (maneja la excepción)
+                    echo "<h1>Error al intentar comunicarse con el servidor, intentalo más tarde</h1>";
+                    exit; // O puedes mostrar un mensaje adicional si lo deseas
+                }
 
+                
                 if ($response === false) {
                     // Error al conectarse a la API
-                    echo "Error al conectarse a la API.";
+                   echo "<div style='text-align:center;'><h2 style='text-align:center;'>Este certificado no existe</h2>
+                   <p>Pero... ¡No te preocupes!..
+                   <br><br>
+                   <img class='img-fluid' src='../assets/images/404.png' style='width:25rem;'/>
+                   <p>Hay otras certificaciones que puedes obtener en Tecsify.com<br>¡Que no pare la innovación!</p>
+                   </div>";
                 } else {
                     $data = json_decode($response, true);
 
@@ -262,13 +301,19 @@ $apiUrl .= '/' . $uuid;
 
                         // Muestra la imagen dentro de una etiqueta <img>
                         echo "<br>";
-                        echo "<img src='$dataUrl' name='".$data['certificados'][0]['id'] ."' class='img-fluid efecto_certi' id='certificadotecsify' alt='Diploma Tecsify' style='border-radius:0.5rem;box-shadow: 0 0 2rem rgba(3, 3, 153, 0.3);' /><br>";
+                        echo "<img src='$dataUrl' name='" . $data['certificados'][0]['id'] . "' class='img-fluid efecto_certi' id='certificadotecsify' alt='Diploma Tecsify' style='border-radius:0.5rem;box-shadow: 0 0 2rem rgba(3, 3, 153, 0.3);' /><br>";
                         echo "<small>¡Puedes hacer click en el certificado para verlo en grande!</small><br><br>";
-                        echo "<button id='downloadPDF' class='btn btn-primary'>Descargar como PDF</button>";
+                        echo "<select id ='descargar-certificado' class='descargar-certificado custom-select-lg mb-3'>
+                        <option value=''>Descargar certificado</option>
+                        <option value='pdf'>Descargar como PDF</option>
+                        <option value='img'>Descargar como Imágen</option>
+                      
+                      </select>";
+
                         echo "</div>";
-                        echo "<div class='col-md-7' style='padding-top: 1rem;padding-left: 2rem;'> ";
+                        echo "<div id='datos-cert' class='col-md-7' style='padding-top: 1rem;padding-left: 2rem;'> ";
                         echo "<h2>Datos del Certificado:</h2>";
-                        
+
                         echo "<p>Nombre: <span class='titulo'>" . $data['datos_usuario']['nombre'] . "</span></p>";
                         echo "<p>Código único de Certificado:<span class='titulo'> " . $data['certificados'][0]['id'] . "</span></p>";
                         echo "<p>Nombre del Certificado: <span class='titulo'>" . $data['certificados'][0]['nombre_certificado'] . "</span></p>";
@@ -281,7 +326,7 @@ $apiUrl .= '/' . $uuid;
                         echo "<p>Impartido por: <span class='titulo'>" . $data['certificados'][0]['certificado_impartido'] . "</span></p>";
                         echo "<p>Evento: <span class='titulo'>" . $data['certificados'][0]['evento'] . "</span></p>";
                         echo "<p class='titulo'>✅ Validado por Tecsify</p><br>";
-                        echo "<div class='align-items-center' style='text-align: left;'>
+                        echo "<div class='align-items-center' id='redescompartir' style='text-align: left;'>
 
                         <h6>¡Comparte tus logros en redes sociales!</h6> 
                             <style>
@@ -306,121 +351,144 @@ $apiUrl .= '/' . $uuid;
     </div>
 
     <div>
-    <div class="align-items-center" style="text-align: center;">
+        <div class="align-items-center" style="text-align: center;">
 
-<h5>¡Siguenos en nuestras redes sociales!</h5> 
-    <style>
-      .sharer{
-        color:#030399 !important
-      }
+            <h5>¡Siguenos en nuestras redes sociales!</h5>
+            <style>
+                .sharer {
+                    color: #030399 !important
+                }
+            </style>
+            <a href="https://facebook.com/tecsify" target="_blank" id="share-fb" class="sharer button"><i class="fab fa-3x fa-facebook-square"></i></a>
+            <a href="https://instagram.com/tecsify" target="_blank" id="share-ig" class="sharer button"><i class="fab fa-3x fa-instagram-square"></i></a>
+            <a href="https://www.linkedin.com/company/tecsify/" id="share-ln" class="sharer button"><i class="fa-brands fa-3x fa-linkedin"></i></a>
+            <a href="https://twitter.com/tecsify" id="share-ig" class="sharer button"><i class="fab fa-3x fa-twitter-square"></i></a>
+            <a href="https://www.youtube.com/channel/UCalG-fWPHHWG-XTzhcCn0_A" id="share-ln" class="sharer button"><i class="fab fa-3x fa-youtube-square"></i></a>
 
-    </style>
-    <a href="https://facebook.com/tecsify" target="_blank" id="share-fb" class="sharer button"><i class="fab fa-3x fa-facebook-square"></i></a>
-    <a href="https://instagram.com/tecsify" target="_blank" id="share-ig" class="sharer button"><i class="fab fa-3x fa-instagram-square"></i></a>
-    <a href="https://www.linkedin.com/company/tecsify/" id="share-ln" class="sharer button"><i class="fa-brands fa-3x fa-linkedin"></i></a>
-    <a href="https://twitter.com/tecsify" id="share-ig" class="sharer button"><i class="fab fa-3x fa-twitter-square"></i></a>
-    <a href="https://www.youtube.com/channel/UCalG-fWPHHWG-XTzhcCn0_A" id="share-ln" class="sharer button"><i class="fab fa-3x fa-youtube-square"></i></a>
-
-   <br>
-   <br>
-   <br>
-</div>
+            <br>
+            <br>
+            <br>
+        </div>
     </div>
     </section>
 
-        <script src="../assets/js/theme-plugin.js"></script>
-        <script src="../assets/js/theme-script.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-       <script>
-  // Función para descargar la imagen como PDF
-  document.getElementById('downloadPDF').addEventListener('click', function () {
-    window.jsPDF = window.jspdf.jsPDF;
-    const pdf = new jsPDF('landscape');
-    // URL de la imagen que deseas convertir a PDF
-    
-    const imageUrl = $("#certificadotecsify").attr("src");
-    const name_id = $("#certificadotecsify").attr("name");
+    <script src="../assets/js/theme-plugin.js"></script>
+    <script src="../assets/js/theme-script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    // Dimensiones de la imagen en el PDF
-    const imageWidth = 0;
-    const imageHeight = 200;
+    <!-- Modal para mostrar la imagen -->
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <button type="button" style='color:white' class="close" data-dismiss="modal" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
 
-    // Agrega la imagen al PDF
-    pdf.addImage(imageUrl, 'JPEG', 10, 5, imageWidth, imageHeight);
+            <img id="modalImage" src="" class="img-fluid" alt="Imagen" style="max-width:100%;">
 
-    // Nombre del archivo PDF generado
-    const pdfFileName = name_id +  '.pdf';
-
-    // Descarga el PDF
-    pdf.save(pdfFileName);
-  });
-</script>
+        </div>
+    </div>
 
 
-<!-- Modal para mostrar la imagen -->
-<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-  <button type="button" style='color:white' class="close" data-dismiss="modal" aria-label="Cerrar">
-        <span aria-hidden="true">&times;</span>
-      </button>
+    <script>
+        
+        // Función para abrir el modal y mostrar la imagen
+        document.getElementById('certificadotecsify').addEventListener('click', function() {
+            // Obtén la URL de la imagen
+            const imageUrl = $("#certificadotecsify").attr("src");
 
-    <img id="modalImage" src="" class="img-fluid" alt="Imagen" style="max-width:100%;">
+            // Establece la URL de la imagen en el modal
+            document.getElementById('modalImage').src = imageUrl;
 
-  </div>
-</div>
+            // Abre el modal
+            $('#imageModal').modal('show');
+        });
 
+        document.getElementById('shareLinkedInButton').addEventListener('click', function() {
+            // Obtiene la URL actual del navegador
+            var currentURL = window.location.href;
 
-<script>
-// Función para abrir el modal y mostrar la imagen
-document.getElementById('certificadotecsify').addEventListener('click', function () {
-  // Obtén la URL de la imagen
-  const imageUrl = $("#certificadotecsify").attr("src");
+            // Crea la URL de compartir en LinkedIn
+            var linkedInShareURL = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(currentURL);
 
-  // Establece la URL de la imagen en el modal
-  document.getElementById('modalImage').src = imageUrl;
+            // Abre una nueva ventana o pestaña con la URL de compartir en LinkedIn
+            window.open(linkedInShareURL, '_blank');
+        });
 
-  // Abre el modal
-  $('#imageModal').modal('show');
-});
+        document.getElementById('shareTwitterButton').addEventListener('click', function() {
+            // Obtiene la URL actual del navegador
+            var currentURL = window.location.href;
 
-document.getElementById('shareLinkedInButton').addEventListener('click', function() {
-  // Obtiene la URL actual del navegador
-  var currentURL = window.location.href;
+            // Crea la URL de compartir en Twitter
+            var twitterShareURL = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(currentURL);
 
-  // Crea la URL de compartir en LinkedIn
-  var linkedInShareURL = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(currentURL);
-
-  // Abre una nueva ventana o pestaña con la URL de compartir en LinkedIn
-  window.open(linkedInShareURL, '_blank');
-});
-
-document.getElementById('shareTwitterButton').addEventListener('click', function() {
-  // Obtiene la URL actual del navegador
-  var currentURL = window.location.href;
-
-  // Crea la URL de compartir en Twitter
-  var twitterShareURL = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(currentURL);
-
-  // Abre una nueva ventana o pestaña con la URL de compartir en Twitter
-  window.open(twitterShareURL, '_blank');
-});
+            // Abre una nueva ventana o pestaña con la URL de compartir en Twitter
+            window.open(twitterShareURL, '_blank');
+        });
 
 
-document.getElementById('shareFacebookButton').addEventListener('click', function() {
-  // Obtiene la URL actual del navegador
-  var currentURL = window.location.href;
+        document.getElementById('shareFacebookButton').addEventListener('click', function() {
+            // Obtiene la URL actual del navegador
+            var currentURL = window.location.href;
 
-  // Crea la URL de compartir en Facebook
-  var facebookShareURL = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(currentURL);
+            // Crea la URL de compartir en Facebook
+            var facebookShareURL = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(currentURL);
 
-  // Abre una nueva ventana o pestaña con la URL de compartir en Facebook
-  window.open(facebookShareURL, '_blank');
-});
+            // Abre una nueva ventana o pestaña con la URL de compartir en Facebook
+            window.open(facebookShareURL, '_blank');
+        });
 
-</script>
 
-<!-- Botón para compartir en LinkedIn -->
+
+
+
+
+        document.getElementById('descargar-certificado').addEventListener('change', function() {
+            var select = document.querySelector('.descargar-certificado');
+            var selectedOption = select.options[select.selectedIndex].value;
+
+            if (selectedOption === 'pdf') {
+                window.jsPDF = window.jspdf.jsPDF;
+                const pdf = new jsPDF('landscape');
+                // URL de la imagen que deseas convertir a PDF
+
+                const imageUrl = $("#certificadotecsify").attr("src");
+                const name_id = $("#certificadotecsify").attr("name");
+
+                // Dimensiones de la imagen en el PDF
+                const imageWidth = 0;
+                const imageHeight = 200;
+
+                // Agrega la imagen al PDF
+                pdf.addImage(imageUrl, 'JPEG', 10, 5, imageWidth, imageHeight);
+
+                // Nombre del archivo PDF generado
+                const pdfFileName = name_id + '.pdf';
+                Swal.fire('¡Certificado descargado!', "Se ha guardado tu certificado como PDF:<br> <small>Nombre: <strong>"+pdfFileName +"</strong><small>", "success");
+
+
+
+                // Descarga el PDF
+                pdf.save(pdfFileName);
+            } else if (selectedOption === 'img') {
+                // Obtiene la imagen por su ID
+                var image = document.getElementById('certificadotecsify');
+                const name_id = $("#certificadotecsify").attr("name");
+
+                // Crea un enlace temporal
+                var a = document.createElement('a');
+                a.href = image.src;
+                a.download = name_id + '.jpg';
+
+                // Simula un clic en el enlace para iniciar la descarga
+                a.click();
+                Swal.fire('¡Certificado descargado!', "Se ha guardado tu certificado como Imágen:<br> <small>Nombre: <small><strong>"+name_id + '.jpg'+"</strong><small>", "success");
+
+            }
+        });
+    </script>
+
+    <!-- Botón para compartir en LinkedIn -->
 
 
 </body>

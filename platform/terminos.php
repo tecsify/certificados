@@ -282,7 +282,7 @@
 
         <!--back-to-top start-->
 
-        <div class="scroll-top"><a class="smoothscroll" href="#top"><i class="las la-angle-up"></i></a></div>
+        <div class="scroll-top"><a class="smoothscroll" href="#top"><i class="fa-solid fa-angle-up"></i></a></div>
 
         <!--back-to-top end-->
 

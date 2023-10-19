@@ -32,6 +32,8 @@
     <!-- inject css end -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TypewriterJS/2.21.0/core.min.js" integrity="sha512-fo6X5UXaTRf/mHuTYJBR3Q/rpPa+LB2KUyDMROluMkZnfEEF4DhQyI5AHRoAe/zzu1Ty58MMmZXG4SuVEpXsng==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
 
 
@@ -89,7 +91,7 @@
 
                                     </ul>
                                 </div>
-                            </nav> 
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -139,9 +141,9 @@
                 transform: rotate(-0.5deg) scale(1.05);
             }
 
-            .brsalto{
-                    margin-bottom: 0.01rem;
-                }
+            .brsalto {
+                margin-bottom: 0.01rem;
+            }
 
             .main {
                 width: 22.3rem;
@@ -174,7 +176,7 @@
 
 
             @media only screen and (max-width: 900px) {
-                .brsalto{
+                .brsalto {
                     margin-bottom: 2rem;
                 }
 
@@ -232,8 +234,8 @@
                         <br class='brsalto'>
                         <h5 class="badge badge-primary-soft font-w-6">En Tecsify somos</h5>
                         <br>
-                        <h2 class="display-6">
-                            ¡Tecnología que transforma <span class="text-primary">vidas!</span>
+                        <h2 class="display-6" >
+                            ¡Tecnología que transforma <br><span id='texto-cambiante'>vidas!</span>
                         </h2>
                         <p>Nuestros certificados están respaldados por más de 150 alianzas estrategícas en más de 10 paises de Latinoamérica</p>
                         <hr>
@@ -283,7 +285,7 @@
 
         <!--back-to-top start-->
 
-        <div class="scroll-top"><a class="smoothscroll" href="#top"><i class="las la-angle-up"></i></a></div>
+        <div class="scroll-top"><a class="smoothscroll" href="#top"><i class="fa-solid fa-angle-up"></i></a></div>
 
         <!--back-to-top end-->
 
@@ -294,6 +296,31 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 
         <script>
+            var app = document.getElementById('texto-cambiante');
+
+            var typewriter = new Typewriter(app, {
+                loop: true,
+                delay: 75,
+            });
+
+            typewriter.typeString('<span class="text-primary strong">vidas</span>!')
+                .pauseFor(4000)
+                .deleteAll()
+                .typeString('<span class="text-primary">comunidades</span>!')
+                .pauseFor(2500)
+                .deleteAll()
+                .typeString('<span class="text-primary">países</span>!')
+                .pauseFor(2500)
+                .deleteAll()
+                .typeString('<span class="text-primary">a Latinoamérica</span>!')
+                .pauseFor(2500)
+                .deleteAll()
+                .typeString('<span class="text-primary">al mundo</span>!')
+                .pauseFor(2500)
+                .deleteAll()
+                .start();
+
+
             $(document).ready(function() {
                 // Escucha el envío del formulario
                 $('form').on('submit', function(e) {
