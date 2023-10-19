@@ -419,7 +419,7 @@ $apiUrl .= '/' . $uuid;
 
         document.getElementById('shareLinkedInButton').addEventListener('click', function() {
             // Obtiene el título de la charla o el contenido que deseas compartir
-            const charlaTitle = $("#nombre_certificado").attr("name");
+            var charlaTitle = $("#nombre_certificado").attr("name");
 
             // Crea el mensaje personalizado
             var shareMessage = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
@@ -439,7 +439,7 @@ $apiUrl .= '/' . $uuid;
 
         document.getElementById('shareTwitterButton').addEventListener('click', function() {
             // Obtiene el título de la charla o el contenido que deseas compartir
-            const charlaTitle = $("#nombre_certificado").attr("name");
+            var charlaTitle = $("#nombre_certificado").attr("name");
 
             // Crea el texto de la publicación
             var shareText = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
@@ -457,7 +457,7 @@ $apiUrl .= '/' . $uuid;
 
         document.getElementById('shareFacebookButton').addEventListener('click', function() {
             // Obtiene el título de la charla o el contenido que deseas compartir
-            const charlaTitle = $("#nombre_certificado").attr("name");
+            var charlaTitle = $("#nombre_certificado").attr("name");
 
             // Crea el texto de la publicación
             var shareText = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
