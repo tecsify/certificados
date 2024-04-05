@@ -671,7 +671,8 @@ def nuevo_beta_testers():
         nombre = str(validar_dato(request.json["nombre"], "nombre")).upper()
         correo = str(request.json["correo"]).lower()
         estado = 1
-
+        fecha_registro = datetime.now()
+        
         if not all([nombre, correo]):
             return (
                 jsonify(
@@ -682,7 +683,7 @@ def nuevo_beta_testers():
 
         validacion = validar_creacion_bt(correo)
         if not validacion:
-            nuevo_usurio = BetaTesters(nombre, correo, estado)
+            nuevo_usurio = BetaTesters(nombre, correo, estado, fecha_registro)
             db.session.add(nuevo_usurio)
             db.session.commit()
             return (
