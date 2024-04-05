@@ -62,6 +62,25 @@ class CertificadosPorUsuario(db.Model):
     def count_certificados(cls, usuario_id):
         return cls.query.filter_by(usuario_id=usuario_id).count()
 
+class BetaTesters(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    correo = db.Column(db.String(100), nullable=False)
+    fecha_registro = db.Column(db.Date, nullable=False)
+    estado = db.Column(db.Integer)
+    
+    def __init__(
+        self,
+        nombre,
+        correo,
+        estado,
+        fecha_registro
+    ):
+        self.nombre = nombre
+        self.correo = correo
+        self.estado = estado
+        self.fecha_registro = fecha_registro
+
 
 with app.app_context():
     db.create_all()
@@ -626,5 +645,94 @@ def importar_usuarios_certificados():
 
 
 
+
+
+
+
+#######################3 Beta Testers
+
+
+def validar_creacion_bt(correo):
+        # Verificar si el correo electrónico ya está en uso
+    if BetaTesters.query.filter_by(correo=correo).first():
+        return (
+            jsonify(
+                {
+                    "error": "El registro no pudo ser completado, este correo ya está en uso."
+                }
+            ),
+            409,
+        )
+
+    return False  # El usuario no existe, pasa la validación
+@app.route(host + "/beta_testers", methods=["POST"])
+def nuevo_beta_testers():
+    try:
+        nombre = str(validar_dato(request.json["nombre"], "nombre")).upper()
+        correo = str(request.json["correo"]).lower()
+        estado = 1
+
+        if not all([nombre, correo]):
+            return (
+                jsonify(
+                    {"error": "El registro no pudo ser completado campos incompletos "}
+                ),
+                400,
+            )
+
+        validacion = validar_creacion_bt(correo)
+        if not validacion:
+            nuevo_usurio = BetaTesters(nombre, correo, estado)
+            db.session.add(nuevo_usurio)
+            db.session.commit()
+            return (
+                jsonify(
+                    {
+                        "message": "Datos de usuario ingresados exitosamente",
+                        "id": nuevo_usurio.id,
+                        "nombre": nuevo_usurio.nombre,
+                        "correo": nuevo_usurio.correo,
+                    }
+                ),
+                201,
+            )
+        else:
+            return validacion
+    except KeyError as e:
+        response = jsonify(
+            {
+                "error": "El registro no pudo ser completado, hace falta el campo "
+                + str(e)
+            }
+        )
+        response.status_code = 400
+        return response
+    except Exception as ex:
+        response = jsonify(
+            {
+                "error": "El registro no pudo ser completado, intenta nuevamente. Error: "
+                + str(ex)
+            }
+        )
+        response.status_code = 500
+        return response
+
+@app.route(host + "/get_beta_testers", methods=["GET"])
+def get_btesters():
+    usuarios = BetaTesters.query.all()
+    resultados = []
+    for usuario in usuarios:
+        resultados.append(
+            {
+                "id": usuario.id,
+                "nombre": usuario.nombre,
+                "correo": usuario.correo,
+                "estado": usuario.estado,
+            }
+        )
+    return jsonify(resultados)
+
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True, port=5000)
+    app.run(host="0.0.0.0", debug=False, port=5000)

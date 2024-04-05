@@ -18,3 +18,4 @@ qrcode==7.4.2
 SQLAlchemy==2.0.22
 typing_extensions==4.8.0
 Werkzeug==3.0.0
+gunicorn==21.0.1

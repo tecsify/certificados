@@ -10,7 +10,9 @@ services:
       - "3306:3306"
     volumes:
       - ./data/mysql:/var/lib/mysql
-
+    depends_on:
+      - backend
+      
   backend:
     build:
       context: ./backend
@@ -21,6 +23,8 @@ services:
       - ./backend:/backend
     ports:
       - "5000"
+    restart: always
+
 
   nginx:
     build:

@@ -10,7 +10,7 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 COPY . .
-EXPOSE 5000
+EXPOSE 5100
 
 # Define el comando a ejecutar cuando el contenedor se inicie
-CMD ["python", "main.py"]
+CMD ["gunicorn"  , "-b", "0.0.0.0:5100", "main:app" ]
