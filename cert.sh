@@ -23,25 +23,31 @@ download_tls_params() {
   echo "Parámetros TLS descargados."
 }
 
-# Crear certificado temporal
-create_dummy_certificate() {
-  local path="/etc/letsencrypt/live/$domains"
-  echo "### Creando certificado temporal para $domains ..."
-  mkdir -p "$data_path/conf/live/$domains"
-  docker-compose run --rm --entrypoint "\
-    openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1 \
-    -keyout '$path/privkey.pem' -out '$path/fullchain.pem' \
-    -subj '/CN=localhost'" certbot
+# Crear certificados temporales para todos los dominios
+create_dummy_certificates() {
+  echo "### Creando certificados temporales para ${domains[@]} ..."
+  for domain in "${domains[@]}"; do
+    local path="/etc/letsencrypt/live/$domain"
+    mkdir -p "$data_path/conf/live/$domain"
+    docker-compose run --rm --entrypoint "\
+      openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1 \
+      -keyout '$path/privkey.pem' -out '$path/fullchain.pem' \
+      -subj '/CN=localhost'" certbot
+  done
+  echo "Certificados temporales creados para todos los dominios."
 }
 
-# Borrar certificado temporal
-delete_dummy_certificate() {
-  echo "### Eliminando certificado temporal ..."
-  docker-compose run --rm --entrypoint "\
-    rm -Rf /etc/letsencrypt/live/$domains /etc/letsencrypt/archive/$domains /etc/letsencrypt/renewal/$domains.conf" certbot
+# Borrar certificados temporales de todos los dominios
+delete_dummy_certificates() {
+  echo "### Eliminando certificados temporales ..."
+  for domain in "${domains[@]}"; do
+    docker-compose run --rm --entrypoint "\
+      rm -Rf /etc/letsencrypt/live/$domain /etc/letsencrypt/archive/$domain /etc/letsencrypt/renewal/$domain.conf" certbot
+  done
+  echo "Certificados temporales eliminados para todos los dominios."
 }
 
-# Solicitar certificado Let's Encrypt
+# Solicitar certificados reales de Let's Encrypt para todos los dominios
 request_letsencrypt_certificate() {
   local domain_args email_arg staging_arg=""
   
@@ -56,7 +62,7 @@ request_letsencrypt_certificate() {
   # Modo de prueba
   [ $staging -ne 0 ] && staging_arg="--staging"
   
-  echo "### Solicitando certificado Let's Encrypt para $domains ..."
+  echo "### Solicitando certificados Let's Encrypt para ${domains[@]} ..."
   docker-compose run --rm --entrypoint "\
     certbot certonly --webroot -w /var/www/certbot \
     $staging_arg $email_arg $domain_args \
@@ -71,16 +77,16 @@ fi
 
 # Verificar si existen datos previos
 if [ -d "$data_path" ]; then
-  read -p "Datos existentes para $domains. ¿Deseas reemplazar el certificado? (y/N) " decision
+  read -p "Datos existentes para ${domains[@]}. ¿Deseas reemplazar los certificados? (y/N) " decision
   [[ "$decision" != "Y" && "$decision" != "y" ]] && exit
 fi
 
-create_dummy_certificate
+create_dummy_certificates
 
 echo "### Iniciando nginx ..."
 docker-compose up --force-recreate -d nginx
 
-delete_dummy_certificate
+delete_dummy_certificates
 
 request_letsencrypt_certificate
 
