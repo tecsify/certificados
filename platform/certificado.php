@@ -26,6 +26,31 @@ if (preg_match($pattern, $uuid, $matches)) {
 $apiUrl .= '/' . $uuid;
 $imageUrl = "https://certificados.tecsify.com/backend/diploma/" . $uuid;
 
+error_reporting(0);
+// Realiza la solicitud GET a la API
+try {
+    $response = file_get_contents($apiUrl);
+} catch (Exception $e) {
+    // Error al conectarse a la API (maneja la excepción)
+    echo "<h1>Error al intentar comunicarse con el servidor, intentalo más tarde</h1>";
+    exit; // O puedes mostrar un mensaje adicional si lo deseas
+}
+
+if ($response) {
+    // Solicita la imagen del diploma
+    $imageData = file_get_contents($diplomaUrl . $uuid);
+    $currentURL = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    // Convierte los datos de la imagen a base64
+    $base64Image = base64_encode($imageData);
+
+    // Construye una URL de datos
+    $dataUrl = "data:image/jpeg;base64," . $base64Image;
+    $nombreUsuario = htmlspecialchars($data['datos_usuario']['nombre'], ENT_QUOTES, 'UTF-8');
+    $uuidCertificado = htmlspecialchars($data['certificados'][0]['id'], ENT_QUOTES, 'UTF-8');
+    $nombreCertificado = htmlspecialchars($data['certificados'][0]['nombre_certificado'], ENT_QUOTES, 'UTF-8');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -41,14 +66,13 @@ $imageUrl = "https://certificados.tecsify.com/backend/diploma/" . $uuid;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Certificados Tecsify - ¡Tecnología que empodera!">
     <meta property="og:url" content="https://certificados.tecsify.com/certificado/<?php echo $uuid; ?>">
     <meta property="og:image" content="<?php echo $imageUrl; ?>">
-    
-    <meta property="og:site_name" content="Tecsify" />
 
-    <meta property="og:title" content="Certificados Tecsify - Tecnología que empodera" />
-    <meta property="og:description" content="Certificado de Tecsify Latinoamérica" />
+    <meta property="og:site_name" content="Certificados Tecsify" />
+
+    <meta property="og:title" content="<?php echo $nombreUsuario; ?> | Certificados Tecsify" />
+    <meta property="og:description" content="Mira mi nuevo certificado de " <?php echo $nombreCertificado; ?> />
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@tecsify">
@@ -283,18 +307,10 @@ $imageUrl = "https://certificados.tecsify.com/backend/diploma/" . $uuid;
             <div class="container">
 
                 <?php
-                error_reporting(0);
-                // Realiza la solicitud GET a la API
-                try {
-                    $response = file_get_contents($apiUrl);
-                } catch (Exception $e) {
-                    // Error al conectarse a la API (maneja la excepción)
-                    echo "<h1>Error al intentar comunicarse con el servidor, intentalo más tarde</h1>";
-                    exit; // O puedes mostrar un mensaje adicional si lo deseas
-                }
 
 
-                if ($response === false) {
+
+                if (!$response) {
                     // Error al conectarse a la API
                     echo "
                    
@@ -321,15 +337,6 @@ $imageUrl = "https://certificados.tecsify.com/backend/diploma/" . $uuid;
 
                         echo "<div class='row'>";
                         echo "<div class='col-md-5' style='text-align: center;'> ";
-                        // Solicita la imagen del diploma
-                        $imageData = file_get_contents($diplomaUrl . $uuid);
-                        $currentURL = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-                        // Convierte los datos de la imagen a base64
-                        $base64Image = base64_encode($imageData);
-
-                        // Construye una URL de datos
-                        $dataUrl = "data:image/jpeg;base64," . $base64Image;
 
                         // Muestra la imagen dentro de una etiqueta <img>
                         echo "<br>";
@@ -448,7 +455,7 @@ $imageUrl = "https://certificados.tecsify.com/backend/diploma/" . $uuid;
             var currentURL = window.location.href;
 
             // Crea la URL de compartir en LinkedIn con el mensaje personalizado
-            var linkedInShareURL = "https://www.linkedin.com/shareArticle?mini=true&url=" + encodeURIComponent(currentURL)+ "/00&title=" + encodeURIComponent(shareMessage) + "&source=Tecsify";
+            var linkedInShareURL = "https://www.linkedin.com/shareArticle?mini=true&url=" + encodeURIComponent(currentURL) + "/00&title=" + encodeURIComponent(shareMessage) + "&source=Tecsify";
 
             // Abre una nueva ventana o pestaña con la URL de compartir en LinkedIn
             window.open(linkedInShareURL, '_blank');
