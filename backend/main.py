@@ -499,7 +499,7 @@ def obtener_certificado_por_uuid(certificado_id):
     return jsonify({"message": "Certificado no encontrado"}), 404
 
 
-# Ruta para obtener información de un CertificadoPorUsuario por su UUID
+# Ruta para obtener información de un CertificadoPorUsuario por su correo
 @app.route(host + "/certificados_por_correo", methods=["POST"])
 def obtener_certificado_por_correo():
     correo = str(request.json["correo"]).lower()
@@ -508,13 +508,16 @@ def obtener_certificado_por_correo():
     if not usuario:
         return jsonify({"message": "Usuario no encontrado"}), 404
 
-    certificado_por_usuario = CertificadosPorUsuario.query.filter_by(
-        usuario_id=usuario.id
-    ).all()
-    if not certificado_por_usuario:
+    # Obtener todos los certificados del usuario, ordenados por fecha
+    certificados = (Certificados.query
+                    .join(CertificadosPorUsuario)
+                    .filter(CertificadosPorUsuario.usuario_id == usuario.id)
+                    .order_by(Certificados.fecha.desc())
+                    .all())
+
+    if not certificados:
         return jsonify({"message": "Este usuario no tiene certificados"}), 404
 
-    resultados = []
     total_certificados = CertificadosPorUsuario.count_certificados(usuario.id)
     datos_usuario = {
         "nombre": usuario.nombre,
@@ -522,22 +525,21 @@ def obtener_certificado_por_correo():
         "id": usuario.id,
         "total_certificados": total_certificados,
     }
-    for certificado in certificado_por_usuario:
-        data_cert = Certificados.query.filter_by(id=certificado.certificado_id).order_by(Certificados.fecha.desc()).first()
-        if data_cert:
-            resultados.append(
-                {
-                    "id": certificado.id,
-                    "certificado_id": certificado.certificado_id,
-                    "nombre_certificado": data_cert.nombre_certificado,
-                    "certificado_impartido": data_cert.impartido_por,
-                    "evento": data_cert.evento_perteneciente,
-                    "fecha_certificado": data_cert.fecha,
-                }
-            )
+
+    resultados = []
+    for certificado in certificados:
+        resultados.append(
+            {
+                "id": certificado.certificados_por_usuario.id,  # o usa el atributo correcto para el ID
+                "certificado_id": certificado.id,
+                "nombre_certificado": certificado.nombre_certificado,
+                "certificado_impartido": certificado.impartido_por,
+                "evento": certificado.evento_perteneciente,
+                "fecha_certificado": certificado.fecha,
+            }
+        )
 
     return jsonify({"datos_usuario": datos_usuario, "certificados": resultados})
-
 
 
 def crear_certificado_por_usuario(usuario_id, certificado_id):
