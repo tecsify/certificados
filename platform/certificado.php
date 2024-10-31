@@ -75,11 +75,11 @@ if ($response) {
     <meta property="og:title" content="<?php echo $nombreUsuario; ?> | Certificados Tecsify" />
     <meta property="og:description" content="Mira mi nuevo certificado de <?php echo $nombreCertificado; ?>" />
 
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@tecsify">
-    <meta name="twitter:title" content="Certificados Tecsify - Tecnología que empodera">
-    <meta name="twitter:description" content="Bienvenido al portal de certificados de Tecsify, aquí encontrarás todos tus certificados">
-
+    <meta name="twitter:title" content="<?php echo $nombreUsuario; ?> | Certificados Tecsify" >
+    <meta name="twitter:description" content="Mira mi nuevo certificado de <?php echo $nombreCertificado; ?>">
+    <meta name="twitter:image" content="<?php echo $imageUrl; ?>" />
     <!-- Title -->
     <title>Certificados Tecsify - Tecnología que empodera</title>
 
