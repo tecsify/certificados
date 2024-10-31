@@ -73,7 +73,7 @@ if ($response) {
     <meta property="og:site_name" content="Certificados Tecsify" />
 
     <meta property="og:title" content="<?php echo $nombreUsuario; ?> | Certificados Tecsify" />
-    <meta property="og:description" content="Mira mi nuevo certificado de " <?php echo $nombreCertificado; ?> />
+    <meta property="og:description" content="Mira mi nuevo certificado de <?php echo $nombreCertificado; ?>" />
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@tecsify">
