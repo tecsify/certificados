@@ -349,7 +349,7 @@ if ($response) {
                       
                       </select>
                             <a href='#' id='LinkedProfile'><button class='descargar-certificado efecto_certi btn btn-primary mb-3 col-12 text-center'>¡Agregar a mi perfil LinkedIn!</button>
-
+                            </a>
                       ";
 
                         echo "</div>";
@@ -397,6 +397,8 @@ if ($response) {
     </div>
 
     <div>
+        <hr>
+        <small>Para cualquier información adicional puedes contactar a certificados@tecsify.com</small>
         <div class="align-items-center" style="text-align: center;">
 
             <h5>¡Siguenos en nuestras redes sociales!</h5>
