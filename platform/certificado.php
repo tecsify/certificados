@@ -378,6 +378,7 @@ if ($response) {
                             <a href='#' id='shareTwitterButton' class='sharer button'><i class='fab fa-2x fa-twitter-square'></i></a>
                             <a href='#' id='shareFacebookButton' class='sharer button'><i class='fab fa-2x fa-facebook-square'></i></a>
                             <a href='#' id='shareWhatsAppButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
+                            <a href='#' id='shareLinkedInButtonCerti' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
                             <a  style='display:none;' href='whatsapp://send?text=¡Mira este increíble certificado sobre " . $data['certificados'][0]['nombre_certificado'] . " En Tecsify! " . $currentURL . "' id='shareWhatsappButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
      
 
@@ -444,6 +445,24 @@ if ($response) {
             // Abre el modal
             $('#imageModal').modal('show');
         });
+
+        document.getElementById('shareLinkedInButtonCerti').addEventListener('click', function() {
+            // Obtiene los datos del certificado
+            var charlaTitle = $("#nombre_certificado").text();
+            var issuer = "Tecsify"; // Puedes cambiar esto si el emisor es diferente
+            var currentURL = window.location.href;
+
+            // Crea la URL de compartir en LinkedIn para agregar un certificado
+            var linkedInShareURL = "https://www.linkedin.com/profile/add?startTask=CERTIFICATION&name=" + encodeURIComponent(charlaTitle) +
+                "&issuer=" + encodeURIComponent(issuer) +
+                "&issueDate=" + encodeURIComponent(new Date().toISOString().split('T')[0]) +
+                "&certificationUrl=" + encodeURIComponent(currentURL);
+
+            // Abre una nueva ventana o pestaña con la URL de compartir en LinkedIn
+            window.open(linkedInShareURL, '_blank');
+        });
+
+
 
         document.getElementById('shareLinkedInButton').addEventListener('click', function() {
             // Obtiene el título de la charla o el contenido que deseas compartir
