@@ -398,8 +398,8 @@ if ($response) {
 
     <div>
         <hr>
-        <small>Para cualquier información adicional puedes contactar a certificados@tecsify.com</small>
         <div class="align-items-center" style="text-align: center;">
+        <small>Para cualquier información adicional puedes contactar a certificados@tecsify.com</small>
 
             <h5>¡Siguenos en nuestras redes sociales!</h5>
             <style>
