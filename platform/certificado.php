@@ -62,7 +62,7 @@ if ($response) {
     <!-- meta tags -->
     <meta charset="utf-8">
     <meta name="keywords" content="Tecsify Latinoamerica, ¡Tecnologia que empodera!" />
-    <meta name="description" content="Bienvenido al portal de certificados de Tecsify, aquí encontrarás todos tus certificados" />
+    <meta name="description" content="Mira mi nuevo certificado de <?php echo $nombreCertificado; ?>" />
     <meta name="author" content="www.Tecsify.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
@@ -77,7 +77,7 @@ if ($response) {
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@tecsify">
-    <meta name="twitter:title" content="<?php echo $nombreUsuario; ?> | Certificados Tecsify" >
+    <meta name="twitter:title" content="<?php echo $nombreUsuario; ?> | Certificados Tecsify">
     <meta name="twitter:description" content="Mira mi nuevo certificado de <?php echo $nombreCertificado; ?>">
     <meta name="twitter:image" content="<?php echo $imageUrl; ?>" />
     <!-- Title -->
@@ -377,6 +377,7 @@ if ($response) {
                             <a href='#' id='shareLinkedInButton' class='sharer button'><i class='fa-brands fa-2x fa-linkedin'></i></a>
                             <a href='#' id='shareTwitterButton' class='sharer button'><i class='fab fa-2x fa-twitter-square'></i></a>
                             <a href='#' id='shareFacebookButton' class='sharer button'><i class='fab fa-2x fa-facebook-square'></i></a>
+                            <a href='#' id='shareWhatsAppButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
                             <a  style='display:none;' href='whatsapp://send?text=¡Mira este increíble certificado sobre " . $data['certificados'][0]['nombre_certificado'] . " En Tecsify! " . $currentURL . "' id='shareWhatsappButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
      
 
@@ -460,6 +461,25 @@ if ($response) {
             // Abre una nueva ventana o pestaña con la URL de compartir en LinkedIn
             window.open(linkedInShareURL, '_blank');
         });
+
+
+        document.getElementById('shareWhatsAppButton').addEventListener('click', function() {
+            // Obtiene el título del certificado
+            var charlaTitle = $("#nombre_certificado").text();
+
+            // Crea el mensaje personalizado
+            var shareMessage = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
+
+            // Obtiene la URL actual del navegador
+            var currentURL = window.location.href;
+
+            // Crea la URL de compartir en WhatsApp con el mensaje personalizado
+            var whatsappShareURL = "https://wa.me/?text=" + encodeURIComponent(shareMessage + " " + currentURL);
+
+            // Abre una nueva ventana o pestaña con la URL de compartir en WhatsApp
+            window.open(whatsappShareURL, '_blank');
+        });
+
 
 
         document.getElementById('shareTwitterButton').addEventListener('click', function() {
