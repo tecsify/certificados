@@ -354,14 +354,14 @@ if ($response) {
                         echo "<h2>Datos del Certificado:</h2>";
 
                         echo "<p>Nombre: <span class='titulo'>" . $data['datos_usuario']['nombre'] . "</span></p>";
-                        echo "<p>Código único de Certificado:<span class='titulo'> " . $data['certificados'][0]['id'] . "</span></p>";
+                        echo "<p>Código único de Certificado:<span class='titulo' id='codigo_certificado'> " . $data['certificados'][0]['id'] . "</span></p>";
                         echo "<p>Nombre del Certificado: <span id='nombre_certificado' name='nombre_certificado' class='titulo'>" . $data['certificados'][0]['nombre_certificado'] . "</span></p>";
 
                         // Formatea la fecha
                         $fecha = new DateTime($data['certificados'][0]['fecha_certificado']);
                         $fechaFormateada = $fecha->format('d/m/Y');
 
-                        echo "<p>Fecha de Certificado: <span class='titulo'>" . $fechaFormateada . "</span></p>";
+                        echo "<p>Fecha de Certificado: <span class='titulo' id='fecha_certificado'>" . $fechaFormateada . "</span></p>";
                         echo "<p>Impartido por: <span class='titulo'>" . $data['certificados'][0]['certificado_impartido'] . "</span></p>";
                         echo "<p>Evento: <span class='titulo'>" . $data['certificados'][0]['evento'] . "</span></p>";
                         echo "<p class='titulo'>✅ Validado por Tecsify</p><br>";
@@ -449,14 +449,20 @@ if ($response) {
         document.getElementById('shareLinkedInButtonCerti').addEventListener('click', function() {
             // Obtiene los datos del certificado
             var charlaTitle = $("#nombre_certificado").text();
-            var issuer = "Tecsify"; // Puedes cambiar esto si el emisor es diferente
+            var aniocert = $("#fecha_certificado").text().slice(-4);;
+            var issuer = "79675988"; // Puedes cambiar esto si el emisor es diferente
+            var organizationName = "Tecsify";
             var currentURL = window.location.href;
+            var certId = $("#codigo_certificado").text();
+           
 
             // Crea la URL de compartir en LinkedIn para agregar un certificado
             var linkedInShareURL = "https://www.linkedin.com/profile/add?startTask=CERTIFICATION&name=" + encodeURIComponent(charlaTitle) +
-                "&issuer=" + encodeURIComponent(issuer) +
-                "&issueDate=" + encodeURIComponent(new Date().toISOString().split('T')[0]) +
-                "&certificationUrl=" + encodeURIComponent(currentURL);
+                "&organizationId=" + encodeURIComponent(issuer) +
+                "issueYear=" + encodeURIComponent(aniocert) +
+                "&organizationName=" + encodeURIComponent(organizationName) +
+                "&certId=" + encodeURIComponent(certId) +
+                "&certUrl=" + encodeURIComponent(currentURL);
 
             // Abre una nueva ventana o pestaña con la URL de compartir en LinkedIn
             window.open(linkedInShareURL, '_blank');
