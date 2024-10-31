@@ -20,7 +20,7 @@ services:
     ports:
       - "5000"
     depends_on:
-      - nginx
+      - mysql
     volumes:
       - ./backend:/backend
 
