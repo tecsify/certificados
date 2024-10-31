@@ -348,7 +348,7 @@ if ($response) {
                         <option value='img'>Descargar como Imágen</option>
                       
                       </select>
-                            <a href='#' id='LinkedProfile'><button class='descargar-certificado  btn btn-primary mb-3 col-12 text-center'>¡Agregar a mi perfil LinkedIn!</button>
+                            <a href='#' id='LinkedProfile'><button class='descargar-certificado efecto_certi btn btn-primary mb-3 col-12 text-center'>¡Agregar a mi perfil LinkedIn!</button>
 
                       ";
 
@@ -379,11 +379,10 @@ if ($response) {
                               }
               
                             </style>
-                            <a href='#' id='shareLinkedInButton' class='sharer button'><i class='fa-brands fa-2x fa-linkedin'></i></a>
-                            <a href='#' id='shareTwitterButton' class='sharer button'><i class='fab fa-2x fa-twitter-square'></i></a>
-                            <a href='#' id='shareFacebookButton' class='sharer button'><i class='fab fa-2x fa-facebook-square'></i></a>
-                            <a href='#' id='shareWhatsAppButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
-                            <a href='#' id='shareLinkedInButtonCerti' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
+                            <a href='#' id='shareLinkedInButton' class='sharer button efecto_certi'><i class='fa-brands fa-2x fa-linkedin'></i></a>
+                            <a href='#' id='shareTwitterButton' class='sharer button efecto_certi'><i class='fab fa-2x fa-twitter-square'></i></a>
+                            <a href='#' id='shareFacebookButton' class='sharer button efecto_certi'><i class='fab fa-2x fa-facebook-square'></i></a>
+                            <a href='#' id='shareWhatsAppButton' class='sharer button efecto_certi'><i class='fab fa-2x fa-whatsapp-square'></i></a>
                             <a  style='display:none;' href='whatsapp://send?text=¡Mira este increíble certificado sobre " . $data['certificados'][0]['nombre_certificado'] . " En Tecsify! " . $currentURL . "' id='shareWhatsappButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
 
                       </div>";
