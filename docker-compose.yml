@@ -37,6 +37,7 @@ services:
     links:
       - backend
     networks:
+      - default
       - linklist_default
       - prodigy_default
 
@@ -56,8 +57,10 @@ services:
     ports:
       - "9000:80"
 
-  networks:
-    linklist_default:
-      external: true
-    prodigy_default:
-      external: true
+networks:
+  default:
+    driver: bridge
+  linklist_default:
+    external: true
+  prodigy_default:
+    external: true
