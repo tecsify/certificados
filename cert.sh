@@ -14,6 +14,9 @@ data_path="./data/certbot"
 email="oscar@tecsify.com"
 staging=0 # 1 para pruebas
 
+# Unir dominios en una cadena
+domain_list="${domains[*]}"
+
 # Función para descargar parámetros TLS recomendados
 download_tls_params() {
   echo "### Descargando parámetros TLS recomendados ..."
@@ -25,7 +28,7 @@ download_tls_params() {
 
 # Crear certificados temporales para todos los dominios
 create_dummy_certificates() {
-  echo "### Creando certificados temporales para ${domains[@]} ..."
+  echo "### Creando certificados temporales para $domain_list ..."
   for domain in "${domains[@]}"; do
     local path="/etc/letsencrypt/live/$domain"
     mkdir -p "$data_path/conf/live/$domain"
@@ -62,7 +65,7 @@ request_letsencrypt_certificate() {
   # Modo de prueba
   [ $staging -ne 0 ] && staging_arg="--staging"
   
-  echo "### Solicitando certificados Let's Encrypt para ${domains[@]} ..."
+  echo "### Solicitando certificados Let's Encrypt para $domain_list ..."
   docker-compose run --rm --entrypoint "\
     certbot certonly --webroot -w /var/www/certbot \
     $staging_arg $email_arg $domain_args \
@@ -77,7 +80,7 @@ fi
 
 # Verificar si existen datos previos
 if [ -d "$data_path" ]; then
-  read -p "Datos existentes para ${domains[@]}. ¿Deseas reemplazar los certificados? (y/N) " decision
+  read -p "Datos existentes para $domain_list. ¿Deseas reemplazar los certificados? (y/N) " decision
   [[ "$decision" != "Y" && "$decision" != "y" ]] && exit
 fi
 
