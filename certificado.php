@@ -400,7 +400,7 @@ document.getElementById('shareTwitterButton').addEventListener('click', function
   var currentURL = window.location.href;
 
   // Crea la URL de compartir en Twitter
-  var twitterShareURL = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(currentURL);
+  var twitterShareURL = 'https://twitter.com/intent/tweet?url=';
 
   // Abre una nueva ventana o pestaña con la URL de compartir en Twitter
   window.open(twitterShareURL, '_blank');
