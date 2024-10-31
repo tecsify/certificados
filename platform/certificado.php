@@ -382,7 +382,6 @@ if ($response) {
                             <a href='#' id='shareLinkedInButton' class='sharer button '><i class='fa-brands fa-2x fa-linkedin '></i></a>
                             <a href='#' id='shareTwitterButton' class='sharer button '><i class='fab fa-2x fa-twitter-square'></i></a>
                             <a href='#' id='shareFacebookButton' class='sharer button '><i class='fab fa-2x fa-facebook-square'></i></a>
-                            <a href='#' id='shareWhatsAppButton' class='sharer button '><i class='fab fa-2x fa-whatsapp-square'></i></a>
                             <a  style='display:none;' href='whatsapp://send?text=¡Mira este increíble certificado sobre " . $data['certificados'][0]['nombre_certificado'] . " En Tecsify! " . $currentURL . "' id='shareWhatsappButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
 
                       </div>";
@@ -493,26 +492,6 @@ if ($response) {
             // Abre una nueva ventana o pestaña con la URL de compartir en LinkedIn
             window.open(linkedInShareURL, '_blank');
         });
-
-
-        document.getElementById('shareWhatsAppButton').addEventListener('click', function() {
-            // Obtiene el título del certificado
-            var charlaTitle = $("#nombre_certificado").text();
-
-            // Crea el mensaje personalizado
-            var shareMessage = "¡Estoy muy contento de compartir mi certificado de @Tecsify sobre " + charlaTitle + "!";
-
-            // Obtiene la URL actual del navegador
-            var currentURL = window.location.href;
-
-            // Crea la URL de compartir en WhatsApp con el mensaje personalizado
-            var whatsappShareURL = "https://wa.me/?text=" + encodeURIComponent(shareMessage + " " + currentURL);
-
-            // Abre una nueva ventana o pestaña con la URL de compartir en WhatsApp
-            window.open(whatsappShareURL, '_blank');
-        });
-
-
 
         document.getElementById('shareTwitterButton').addEventListener('click', function() {
             // Obtiene el título de la charla o el contenido que deseas compartir
