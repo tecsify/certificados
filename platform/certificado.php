@@ -24,7 +24,7 @@ if (preg_match($pattern, $uuid, $matches)) {
 
 // Agrega el UUID a la URL de la API
 $apiUrl .= '/' . $uuid;
-
+$imageUrl = "https://certificados.tecsify.com/backend/diploma/" . $uuid;
 
 ?>
 
