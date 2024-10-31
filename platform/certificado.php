@@ -342,12 +342,16 @@ if ($response) {
                         echo "<br>";
                         echo "<img src='$dataUrl' name='" . $data['certificados'][0]['id'] . "' class='img-fluid efecto_certi' id='certificadotecsify' alt='Diploma Tecsify' style='border-radius:0.5rem;box-shadow: 0 0 2rem rgba(3, 3, 153, 0.3);' /><br>";
                         echo "<small>¡Puedes hacer click en el certificado para verlo en grande!</small><br><br>";
-                        echo "<select id ='descargar-certificado' class='descargar-certificado custom-select-lg mb-3'>
+                        echo "<select id ='descargar-certificado' class='descargar-certificado custom-select-lg mb-3 col-12 text-center'>
                         <option value=''>Descargar certificado</option>
                         <option value='pdf'>Descargar como PDF</option>
                         <option value='img'>Descargar como Imágen</option>
                       
-                      </select>";
+                      </select>
+                        <small>¡También puedes agregar este certificado a la sección de logros de tu perfil de LinkedIn!</small> 
+                            <a href='#' id='LinkedProfile'><button class='btn btn-primary'>Agregar a LinkedIn</button>
+
+                      ";
 
                         echo "</div>";
                         echo "<div id='datos-cert' class='col-md-7' style='padding-top: 1rem;padding-left: 2rem;'> ";
@@ -380,8 +384,6 @@ if ($response) {
                             <a href='#' id='shareWhatsAppButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
                             <a href='#' id='shareLinkedInButtonCerti' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
                             <a  style='display:none;' href='whatsapp://send?text=¡Mira este increíble certificado sobre " . $data['certificados'][0]['nombre_certificado'] . " En Tecsify! " . $currentURL . "' id='shareWhatsappButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
-                            <h6>¡También puedes agregar este certificado a la sección de logros de tu perfil de LinkedIn!</h6> 
-                            <a href='#' id='LinkedProfile'><button class='btn btn-primary'>Agregar a LinkedIn</button>
 
                       </div>";
                         echo "</div>";
@@ -451,12 +453,12 @@ if ($response) {
             // Obtiene los datos del certificado
             var charlaTitle = $("#nombre_certificado").text();
             var aniocert = $("#fecha_certificado").text().slice(-4);
-            var mescert = $("#fecha_certificado").text().slice(3,5);
+            var mescert = $("#fecha_certificado").text().slice(3, 5);
             var issuer = "79675988"; // Puedes cambiar esto si el emisor es diferente
             var organizationName = "Tecsify";
             var currentURL = window.location.href;
             var certId = $("#codigo_certificado").text();
-           
+
 
             // Crea la URL de compartir en LinkedIn para agregar un certificado
             var linkedInShareURL = "https://www.linkedin.com/profile/add?startTask=CERTIFICATION&name=" + encodeURIComponent(charlaTitle) +
