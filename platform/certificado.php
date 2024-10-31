@@ -380,7 +380,8 @@ if ($response) {
                             <a href='#' id='shareWhatsAppButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
                             <a href='#' id='shareLinkedInButtonCerti' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
                             <a  style='display:none;' href='whatsapp://send?text=¡Mira este increíble certificado sobre " . $data['certificados'][0]['nombre_certificado'] . " En Tecsify! " . $currentURL . "' id='shareWhatsappButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
-     
+                            <h6>¡También puedes agregar este certificado a la sección de logros de tu perfil de LinkedIn!</h6> 
+                            <a href='#' id='LinkedProfile'><button class='btn btn-primary'>Agregar a LinkedIn</button>
 
                       </div>";
                         echo "</div>";
@@ -446,7 +447,7 @@ if ($response) {
             $('#imageModal').modal('show');
         });
 
-        document.getElementById('shareLinkedInButtonCerti').addEventListener('click', function() {
+        document.getElementById('LinkedProfile').addEventListener('click', function() {
             // Obtiene los datos del certificado
             var charlaTitle = $("#nombre_certificado").text();
             var aniocert = $("#fecha_certificado").text().slice(-4);
