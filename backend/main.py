@@ -511,7 +511,8 @@ def obtener_certificado_por_correo():
     # Busca los certificados del usuario, ordenados por fecha descendente
     certificado_por_usuario = (
         CertificadosPorUsuario.query
-        .filter_by(usuario_id=usuario.id)
+        .join(Certificados)  # Unir con la tabla Certificados
+        .filter(CertificadosPorUsuario.usuario_id == usuario.id)
         .order_by(desc(Certificados.fecha))  # Orden descendente por fecha de emisión
         .all()
     )
@@ -543,7 +544,6 @@ def obtener_certificado_por_correo():
             )
 
     return jsonify({"datos_usuario": datos_usuario, "certificados": resultados})
-
 
 
 def crear_certificado_por_usuario(usuario_id, certificado_id):
