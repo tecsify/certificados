@@ -379,10 +379,10 @@ if ($response) {
                               }
               
                             </style>
-                            <a href='#' id='shareLinkedInButton' class='sharer button '><i class='fa-brands fa-2x fa-linkedin efecto_certi'></i></a>
-                            <a href='#' id='shareTwitterButton' class='sharer button efecto_certi'><i class='fab fa-2x fa-twitter-square'></i></a>
-                            <a href='#' id='shareFacebookButton' class='sharer button efecto_certi'><i class='fab fa-2x fa-facebook-square'></i></a>
-                            <a href='#' id='shareWhatsAppButton' class='sharer button efecto_certi'><i class='fab fa-2x fa-whatsapp-square'></i></a>
+                            <a href='#' id='shareLinkedInButton' class='sharer button '><i class='fa-brands fa-2x fa-linkedin '></i></a>
+                            <a href='#' id='shareTwitterButton' class='sharer button '><i class='fab fa-2x fa-twitter-square'></i></a>
+                            <a href='#' id='shareFacebookButton' class='sharer button '><i class='fab fa-2x fa-facebook-square'></i></a>
+                            <a href='#' id='shareWhatsAppButton' class='sharer button '><i class='fab fa-2x fa-whatsapp-square'></i></a>
                             <a  style='display:none;' href='whatsapp://send?text=¡Mira este increíble certificado sobre " . $data['certificados'][0]['nombre_certificado'] . " En Tecsify! " . $currentURL . "' id='shareWhatsappButton' class='sharer button'><i class='fab fa-2x fa-whatsapp-square'></i></a>
 
                       </div>";
