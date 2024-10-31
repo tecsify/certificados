@@ -5,13 +5,15 @@
 $apiUrl = 'http://backend:5000/backend/certificado_por_id';
 $diplomaUrl = 'http://backend:5000/backend/diploma/';
 
-// Obtén la URL completa
-$currentUrl = $_SERVER['REQUEST_URI'];
+// Obtén el UUID desde la URL
+$uuid = $_GET['uuid'];
 
-// Expresión regular para capturar el UUID
-$pattern = '/\/certificado\/([0-9a-fA-F-]{36})/';
+if (!isset($uuid) || $uuid == '') {
+    header('Location: /');
+}
 
-if (preg_match($pattern, $currentUrl, $matches)) {
+$pattern = '/^([0-9a-fA-F-]{36})(?:\/.*)?$/';
+if (preg_match($pattern, $uuid, $matches)) {
     // Si se encuentra el UUID, lo asignamos
     $uuid = $matches[1];
 } else {
@@ -22,6 +24,7 @@ if (preg_match($pattern, $currentUrl, $matches)) {
 
 // Agrega el UUID a la URL de la API
 $apiUrl .= '/' . $uuid;
+
 
 ?>
 
