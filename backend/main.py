@@ -523,7 +523,7 @@ def obtener_certificado_por_correo():
         "total_certificados": total_certificados,
     }
     for certificado in certificado_por_usuario:
-        data_cert = Certificados.query.filter_by(id=certificado.certificado_id).first().order_by(Certificados.fecha.desc()).first()
+        data_cert = Certificados.query.filter_by(id=certificado.certificado_id).order_by(Certificados.fecha.desc()).first()
         if data_cert:
             resultados.append(
                 {
