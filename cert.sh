@@ -87,7 +87,7 @@ fi
 create_dummy_certificates
 
 echo "### Iniciando nginx ..."
-docker-compose up --force-recreate -d nginx
+docker-compose up -d nginx
 
 delete_dummy_certificates
 
