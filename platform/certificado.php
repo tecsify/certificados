@@ -348,8 +348,7 @@ if ($response) {
                         <option value='img'>Descargar como Imágen</option>
                       
                       </select>
-                        <small>¡Puedes agregar este certificado a la sección de logros de tu perfil de LinkedIn!</small> 
-                            <a href='#' id='LinkedProfile'><button class='btn btn-primary mb-3 col-12 text-center'>Agregar a LinkedIn</button>
+                            <a href='#' id='LinkedProfile'><button class='btn btn-primary mb-3 col-12 text-center'>¡Agregar a mi perfil LinkedIn!</button>
 
                       ";
 
