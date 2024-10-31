@@ -8,7 +8,7 @@ if [ -z "$docker_compose_cmd" ]; then
 fi
 
 # Variables de configuración
-domains=(prodigy.tecsify.com edu.tecsify.com)
+domains=(edu.tecsify.com prodigy.tecsify.com certificados.tecsify.com)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="oscar@tecsify.com"
