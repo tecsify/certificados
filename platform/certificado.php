@@ -288,6 +288,10 @@ if ($response) {
                     display: inline-block !important;
                 }
 
+                #LinkedProfile {
+                    display: none !important;
+                }
+
             }
 
             .titulo {
