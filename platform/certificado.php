@@ -58,11 +58,11 @@ $apiUrl .= '/' . $uuid;
     <title>Certificados Tecsify - Tecnología que empodera</title>
 
     <!-- Favicon Icon -->
-    <link rel="shortcut icon" href="../assets/images/favic.png" sizes="32x32" />
+    <link rel="shortcut icon" href="/assets/images/favic.png" sizes="32x32" />
     <!-- inject css start -->
 
-    <link href="../assets/css/theme-plugin.css" rel="stylesheet" />
-    <link href="../assets/css/theme.min.css" rel="stylesheet" />
+    <link href="/assets/css/theme-plugin.css" rel="stylesheet" />
+    <link href="/assets/css/theme.min.css" rel="stylesheet" />
 
     <!-- inject css end -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -307,7 +307,7 @@ $apiUrl .= '/' . $uuid;
                    
                    <p>Pero... ¡No te preocupes!..
                    <br><br>
-                   <img class='img-fluid' src='../assets/images/404.png' style='width:25rem;'/>
+                   <img class='img-fluid' src='/assets/images/404.png' style='width:25rem;'/>
                    <p>Hay otras certificaciones que puedes obtener en Tecsify.com<br>¡Que no pare la innovación!</p>
                    </div>";
                 } else {
@@ -405,8 +405,8 @@ $apiUrl .= '/' . $uuid;
     </div>
     </section>
 
-    <script src="../assets/js/theme-plugin.js"></script>
-    <script src="../assets/js/theme-script.js"></script>
+    <script src="/assets/js/theme-plugin.js"></script>
+    <script src="/assets/js/theme-script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
