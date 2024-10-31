@@ -20,7 +20,7 @@ services:
     ports:
       - "5000"
     depends_on:
-      - backend
+      - nginx
     volumes:
       - ./backend:/backend
 
