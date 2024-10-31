@@ -461,7 +461,7 @@ if ($response) {
             var linkedInShareURL = "https://www.linkedin.com/profile/add?startTask=CERTIFICATION&name=" + encodeURIComponent(charlaTitle) +
                 "&organizationId=" + encodeURIComponent(issuer) +
                 "&issueYear=" + encodeURIComponent(aniocert) +
-                "&issueMonth" + encodeURIComponent(mescert) +
+                "&issueMonth=" + encodeURIComponent(mescert) +
                 "&organizationName=" + encodeURIComponent(organizationName) +
                 "&certId=" + encodeURIComponent(certId) +
                 "&certUrl=" + encodeURIComponent(currentURL);
