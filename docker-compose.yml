@@ -37,7 +37,6 @@ services:
     links:
       - backend
     networks:
-      - default
       - linklist_default
       - prodigy_default
 
@@ -58,8 +57,6 @@ services:
       - "9000:80"
 
   networks:
-    default:
-      driver: bridge
     linklist_default:
       external: true
     prodigy_default:
