@@ -449,7 +449,8 @@ if ($response) {
         document.getElementById('shareLinkedInButtonCerti').addEventListener('click', function() {
             // Obtiene los datos del certificado
             var charlaTitle = $("#nombre_certificado").text();
-            var aniocert = $("#fecha_certificado").text().slice(-4);;
+            var aniocert = $("#fecha_certificado").text().slice(-4);
+            var mescert = $("#fecha_certificado").text().slice(3,5);
             var issuer = "79675988"; // Puedes cambiar esto si el emisor es diferente
             var organizationName = "Tecsify";
             var currentURL = window.location.href;
@@ -459,7 +460,8 @@ if ($response) {
             // Crea la URL de compartir en LinkedIn para agregar un certificado
             var linkedInShareURL = "https://www.linkedin.com/profile/add?startTask=CERTIFICATION&name=" + encodeURIComponent(charlaTitle) +
                 "&organizationId=" + encodeURIComponent(issuer) +
-                "issueYear=" + encodeURIComponent(aniocert) +
+                "&issueYear=" + encodeURIComponent(aniocert) +
+                "&issueMonth" + encodeURIComponent(mescert) +
                 "&organizationName=" + encodeURIComponent(organizationName) +
                 "&certId=" + encodeURIComponent(certId) +
                 "&certUrl=" + encodeURIComponent(currentURL);
