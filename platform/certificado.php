@@ -348,7 +348,7 @@ if ($response) {
                         <option value='img'>Descargar como Imágen</option>
                       
                       </select>
-                            <a href='#' id='LinkedProfile'><button class='btn btn-primary mb-3 col-12 text-center'>¡Agregar a mi perfil LinkedIn!</button>
+                            <a href='#' id='LinkedProfile'><button class='descargar-certificado  btn btn-primary mb-3 col-12 text-center'>¡Agregar a mi perfil LinkedIn!</button>
 
                       ";
 
@@ -367,6 +367,8 @@ if ($response) {
                         echo "<p>Fecha de Certificado: <span class='titulo' id='fecha_certificado'>" . $fechaFormateada . "</span></p>";
                         echo "<p>Impartido por: <span class='titulo'>" . $data['certificados'][0]['certificado_impartido'] . "</span></p>";
                         echo "<p>Evento: <span class='titulo'>" . $data['certificados'][0]['evento'] . "</span></p>";
+                        echo "<p>Fecha de caducidad: <span class='titulo'>31/12/2025</span></p>";
+
                         echo "<p class='titulo'>✅ Validado por Tecsify</p><br>";
                         echo "<div class='align-items-center' id='redescompartir' style='text-align: left;'>
 
