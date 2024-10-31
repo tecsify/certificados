@@ -10,7 +10,7 @@ import re
 import csv
 from datetime import datetime
 import io
-
+from sqlalchemy import desc
 app = Flask(__name__)
 CORS(app)
 host = "/backend"
