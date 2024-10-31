@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   mysql:
     image: mysql:latest
@@ -36,6 +34,10 @@ services:
       - ./data/certbot/www:/var/www/certbot
     links:
       - backend
+    networks:
+      - default
+      - linklist_default
+      - prodigy_default
 
   certbot:
     image: certbot/certbot
@@ -52,3 +54,11 @@ services:
       - ./platform:/var/www/html
     ports:
       - "9000:80"
+
+  networks:
+    default:
+      driver: bridge
+    linklist_default:
+      external: true
+    prodigy_default:
+      external: true
