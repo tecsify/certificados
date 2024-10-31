@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   mysql:
     image: mysql:latest
@@ -17,6 +19,8 @@ services:
       - SQLALCHEMY_DATABASE_URI=mysql+pymysql://root:tecsifypasswordgenerico@mysql:3306/certificados_tecsify
     ports:
       - "5000"
+    depends_on:
+      - backend
     volumes:
       - ./backend:/backend
 
@@ -27,8 +31,6 @@ services:
       - "80:80"
       - "443:443"
     restart: always
-    depends_on:
-      - backend
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
