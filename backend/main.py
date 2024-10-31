@@ -86,6 +86,101 @@ with app.app_context():
     db.create_all()
 
 
+
+def generar_diploma_ia(nombre, curso, id_cert):
+    texto_cert_1 = f"https://certificados.tecsify.com/certificado/{id_cert}"
+    texto_cert_2 = f"Código único de certificación: {id_cert}"
+
+    # Obtén la ruta del directorio actual
+    toFilePath = os.path.dirname(os.path.abspath(__file__))
+    arial_font = os.path.join(toFilePath, "arial.ttf")
+
+    # Carga la imagen base del diploma
+    if curso == "Curso de Introducción a GenAI y uso de ChatGPT":
+        empty_img = Image.open(os.path.join(toFilePath, "diploma-ia2.jpg"))
+    else:
+        empty_img = Image.open(os.path.join(toFilePath, "diploma-ia1.jpg"))
+
+    # Configuración de fuentes y tamaño de texto
+    max_font_size = 60
+    font = ImageFont.truetype(arial_font, max_font_size)
+    font_2 = ImageFont.truetype(arial_font, 40)
+    font_3 = ImageFont.truetype(arial_font, 12)
+
+    # Obtiene las dimensiones de la imagen base
+    W, H = empty_img.size
+
+    # Calcula las coordenadas para centrar el texto del nombre
+    text = str(nombre)
+    nombres = nombre.split(" ")
+    if len(nombres) > 5:
+        nombres = nombres[:2] + nombres[-2:]
+
+    text = " ".join([n.capitalize() for n in nombres])
+
+    # Ajusta el tamaño de la fuente del nombre si es demasiado ancho
+    while font.getbbox(text)[2] > W:
+        max_font_size -= 5
+        font = ImageFont.truetype(arial_font, max_font_size)
+
+    x0, x1, text_width, text_height = font.getbbox(text)
+    text_x = (W - text_width) / 2
+    text_y = H / 2.5
+
+    # Crea un objeto ImageDraw para dibujar en la imagen
+    image_editable = ImageDraw.Draw(empty_img)
+
+    # Dibuja el nombre en el diploma
+    image_editable.text((text_x, text_y), text, (255, 255, 255), font=font)
+
+
+    # Calcula las coordenadas para los textos adicionales en la parte inferior
+    x0, x1, text_width_cert_1, text_height_cert_1 = font_3.getbbox(texto_cert_1)
+    text_x_cert_1 = (W - text_width_cert_1) / 2
+    text_y_cert_1 = H - text_height_cert_1 - 27  # Ajusta la posición vertical
+
+    x0, x1, text_width_cert_2, text_height_cert_2 = font_3.getbbox(texto_cert_2)
+    text_x_cert_2 = (W - text_width_cert_2) / 2
+    text_y_cert_2 = text_y_cert_1 + text_height_cert_1
+
+    # Dibuja los textos adicionales en la parte inferior del diploma
+    image_editable.text(
+        (text_x_cert_1, text_y_cert_1), texto_cert_1, (255, 255, 255), font=font_3
+    )
+    image_editable.text(
+        (text_x_cert_2, text_y_cert_2), texto_cert_2, (255, 255, 255), font=font_3
+    )
+
+    # Genera el código QR
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(texto_cert_1)
+    qr.make(fit=True)
+    qr_img = qr.make_image(fill_color="#030399", back_color="#f4f4f4")
+    qr_img = qr_img.resize((105, 105))
+
+    # Pega el código QR en la imagen
+    empty_img.paste(qr_img, (W - 125, H - 125))
+
+    result_file = "result.pdf"
+    empty_img.save(result_file)
+
+    ruta_guardado = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "certificados"
+    )  # Calcula la ruta completa para guardar el archivo en la carpeta "certificados"
+    ruta_completa = os.path.join(ruta_guardado, f"{id_cert}.jpg")
+
+    # Guarda el diploma como imagen JPG en la carpeta "certificados"
+    empty_img.save(ruta_completa)
+
+    return ruta_completa  # Devuelve la ruta donde se guardó el diploma
+
+
+
 def generar_diploma(nombre, charla, id_cert):
     texto_cert_1 = f"https://certificados.tecsify.com/certificado/{id_cert}"
     texto_cert_2 = f"Código único de certificación: {id_cert}"
@@ -360,7 +455,7 @@ def obtener_certificado_por_usuario(certificado_id):
     usuario = certificado_por_usuario.usuario
     certificado = certificado_por_usuario.certificado
 
-    diploma = generar_diploma(
+    diploma = generar_diploma_ia(
         usuario.nombre, certificado.nombre_certificado, certificado_por_usuario.id
     )
 
@@ -485,7 +580,7 @@ def crear_certificado_por_usuario(usuario_id, certificado_id):
     diploma_id = (
         nuevo_certificado_por_usuario.id
     )  # Utiliza el ID del CertificadoPorUsuario como ID del diploma
-    rutadiploma = generar_diploma(
+    rutadiploma = generar_diploma_ia(
         usuario.nombre, certificado.nombre_certificado, diploma_id
     )
 

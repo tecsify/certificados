@@ -436,7 +436,7 @@ $apiUrl .= '/' . $uuid;
             var currentURL = window.location.href;
 
             // Crea la URL de compartir en LinkedIn con el mensaje personalizado
-            var linkedInShareURL = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(currentURL) + '&summary=' + encodeURIComponent(shareMessage);
+            var linkedInShareURL = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(currentURL);
 
             // Abre una nueva ventana o pestaña con la URL de compartir en LinkedIn
             window.open(linkedInShareURL, '_blank');
