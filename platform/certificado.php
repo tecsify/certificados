@@ -38,6 +38,7 @@ try {
 
 if ($response) {
     // Solicita la imagen del diploma
+    $data = json_decode($response, true);
     $imageData = file_get_contents($diplomaUrl . $uuid);
     $currentURL = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
@@ -328,7 +329,6 @@ if ($response) {
                    <p>Hay otras certificaciones que puedes obtener en Tecsify.com<br>¡Que no pare la innovación!</p>
                    </div>";
                 } else {
-                    $data = json_decode($response, true);
 
                     if (isset($data['message'])) {
                         // Certificado no encontrado
