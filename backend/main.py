@@ -797,35 +797,24 @@ def verificar_certificado_csv():
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
-
-
 @app.route(host + "/validar_duplicados", methods=["POST"])
 def validar_duplicados():
     try:
-        # Verifica si se ha enviado un archivo CSV
-        if "csv_file" not in request.files:
-            return jsonify({"message": "No se ha proporcionado un archivo CSV."}), 400
-
-        file = request.files["csv_file"]
-
-        # Verifica si el archivo tiene un nombre y es un archivo CSV
-        if file.filename == "" or not file.filename.endswith(".csv"):
-            return (
-                jsonify({"message": "Por favor, seleccione un archivo CSV válido."}),
-                400,
-            )
-
-        # Lee el contenido del archivo CSV
-        csv_data = io.StringIO(file.read().decode("utf-8"))
-        csv_reader = csv.DictReader(csv_data)
+        # Obtén todos los usuarios y agrúpalos por correo
+        usuarios = Usuarios.query.all()
+        correos = {}
         errores = []
-        validos = []
-        for row in csv_reader:
-            if len(row["nombre"]) < 3 or len(row["identificacion"]) < 3:
-                continue
-            usuarios = Usuarios.query.filter(Usuarios.correo == row["correo"]).all()
-            if len(usuarios) > 1:
-                for usuario in usuarios:
+
+        for usuario in usuarios:
+            if usuario.correo in correos:
+                correos[usuario.correo].append(usuario)
+            else:
+                correos[usuario.correo] = [usuario]
+
+        # Verifica si hay correos duplicados
+        for correo, lista_usuarios in correos.items():
+            if len(lista_usuarios) > 1:
+                for usuario in lista_usuarios:
                     errores.append(
                         {
                             "usuario_id": usuario.id,
@@ -834,9 +823,10 @@ def validar_duplicados():
                         }
                     )
 
-        return jsonify({"message": "Usuarios duplicados", "errores": errores}), 201
+        return jsonify({"message": "Usuarios duplicados", "errores": errores}), 200 if errores else 204
     except Exception as e:
         return jsonify({"message": str(e)}), 400
+
 
 #######################3 Beta Testers
 
