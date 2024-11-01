@@ -376,9 +376,9 @@
                                     var fecha = new Date(certificado.fecha_certificado);
                                     var fechaFormateada = fecha.toLocaleDateString('es-ES');
 
-                                    var card = $('<div class="col-md-4 mb-3 py-4 cardcert" style="border-radius:1.2rem;"></div>');
+                                    var card = $('<div class="col-md-4 mb-3 py-4 cardcert"></div>');
                                     card.html(
-                                        '<div class="card h-100 efecto_certi">' +
+                                        '<div class="card h-100 efecto_certi" style="border-radius:1.2rem;">' +
                                         '<a href="/certificado/' + certificado.id + '">' +
                                         '<img src="https://certificados.tecsify.com/backend/diploma/'+ certificado.id +'" class="card-img-top" alt="Certificado de '+certificado.nombre_certificado+'"> ' +
                                         '</a><div class="card-body d-flex flex-column">' +
