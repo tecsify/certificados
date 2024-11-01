@@ -275,7 +275,7 @@
             <div class="row justify-content-center">
                 <!-- Campo de búsqueda -->
                 <div class="col"></div>
-                <input type="text" id="buscador" placeholder="Buscar certificados..." onkeyup="buscarCertificados()" class="form-control" style="margin-bottom: 10px; padding: 5px; width: 80%;">
+                <input type="text" id="buscador" placeholder="Buscar certificados..." onkeyup="buscarCertificados()" class="form-control" style="margin-bottom: 10px; padding: 5px;">
 
                 <br>
 
