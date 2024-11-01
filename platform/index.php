@@ -267,9 +267,11 @@
 
             <hr>
             <br>
-            <div class="row justify-content-center" id="certificates">
+            <div class="col-2"></div>
+            <div class="row justify-content-center col-8" id="certificates">
                 <!-- Certificados se mostrarán aquí como tarjetas de Bootstrap -->
             </div>
+            <div class="col-2"></div>
     </div>
     </section>
 
@@ -367,6 +369,7 @@
                                     var card = $('<div class="col-md-4 mb-3 py-2"></div>');
                                     card.html(
                                         '<div class="card h-100 efecto_certi">' +
+                                        '<img src="https://certificados.tecsify.com/backend/diploma/'+ certificado.id +'" class="card-img-top" alt="Certificado de '+certificado.nombre_certificado+'"> ' +
                                         '<div class="card-body d-flex flex-column">' +
                                         '<h6 class="card-title">' + certificado.nombre_certificado + '</h6>' +
                                         '<p class="card-text">Evento: ' + certificado.evento + '<br>Fecha de Certificado: ' + fechaFormateada + '</p>' +
