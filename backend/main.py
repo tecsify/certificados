@@ -767,6 +767,7 @@ def verificar_certificado_csv():
         csv_data = io.StringIO(file.read().decode("utf-8"))
         csv_reader = csv.DictReader(csv_data)
         errores = []
+        validos = []
         for row in csv_reader:
             if len(row["nombre"]) < 3 or len(row["identificacion"]) < 3:
                 continue
@@ -783,12 +784,16 @@ def verificar_certificado_csv():
                         {
                             "usuario_id": usuario.id,
                             "certificado_id": certi.id,
-                            "error": "El usuario no tiene este certificado"
                         }
                     )
-                
+                else:
+                    validos.append(
+                        {
+                            "usuario_id": usuario.id,
+                        }
+                    )
 
-        return jsonify({"message": "Certificados importados con éxito.", "errores": errores}), 201
+        return jsonify({"message": "Certificados validados con éxito.", "errores": errores}), 201
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
