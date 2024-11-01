@@ -206,6 +206,11 @@
                     display: initial !important;
                 }
 
+                .cardcert {
+                    padding-bottom: 1rem !important;
+                    padding-bottom: 1rem !important;
+                }
+
 
 
             }
@@ -371,7 +376,7 @@
                                     var fecha = new Date(certificado.fecha_certificado);
                                     var fechaFormateada = fecha.toLocaleDateString('es-ES');
 
-                                    var card = $('<div class="col-md-4 mb-3 py-2"></div>');
+                                    var card = $('<div class="col-md-4 mb-3 py-4 cardcert"></div>');
                                     card.html(
                                         '<div class="card h-100 efecto_certi">' +
                                         '<a href="/certificado/' + certificado.id + '">' +
