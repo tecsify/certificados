@@ -813,6 +813,7 @@ def validar_duplicados():
 
         # Verifica si hay correos duplicados
         for correo, lista_usuarios in correos.items():
+            errores.append({"correo": correo})
             if len(lista_usuarios) > 1:
                 for usuario in lista_usuarios:
                     errores.append(
