@@ -270,7 +270,7 @@
             <div class="col-2"></div>
             <div class="row justify-content-center">
                 <div class="col"></div>
-                <div class="col-10" id="certificates">
+                <div class="row col-10" id="certificates">
 
                 </div>
                 <div class="col"></div>
