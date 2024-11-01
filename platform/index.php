@@ -275,12 +275,13 @@
             <div class="row justify-content-center">
                 <!-- Campo de búsqueda -->
                 <div class="col"></div>
-                <input type="text" id="buscador" placeholder="Buscar certificados..." onkeyup="buscarCertificados()" class="form-control" style="margin-bottom: 10px; padding: 5px;">
 
-                <br>
 
-                <div class="row col-10" id="certificates">
+                <div class="row col-10">
+                    <input type="text" id="buscador" placeholder="Buscar certificados..." onkeyup="buscarCertificados()" class="form-control" style="margin-bottom: 10px; padding: 5px;">
 
+                    <br>
+                    <div id="certificates"></div>
                 </div>
                 <div class="col"></div>
                 <!-- Certificados se mostrarán aquí como tarjetas de Bootstrap -->
