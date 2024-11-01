@@ -291,6 +291,9 @@ if ($response) {
                 #LinkedProfile {
                     display: none !important;
                 }
+                #datos-cert{
+                    padding-left: 0px !important;
+                }
 
             }
 

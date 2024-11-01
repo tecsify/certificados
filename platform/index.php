@@ -374,6 +374,7 @@
                                     var card = $('<div class="col-md-4 mb-3 py-2"></div>');
                                     card.html(
                                         '<div class="card h-100 efecto_certi">' +
+                                        '<a href="/certificado/' + certificado.id + '">' +
                                         '<img src="https://certificados.tecsify.com/backend/diploma/'+ certificado.id +'" class="card-img-top" alt="Certificado de '+certificado.nombre_certificado+'"> ' +
                                         '<div class="card-body d-flex flex-column">' +
                                         '<h6 class="card-title">' + certificado.nombre_certificado + '</h6>' +
@@ -382,7 +383,7 @@
                                         '<a href="/certificado/' + certificado.id + '" class="btn btn-primary" target="_blank">Ver Certificado</a>' +
                                         '</div>' +
                                         '</div>' +
-                                        '</div>'
+                                        '</a></div>'
                                     );
                                     certificatesContainer.append(card);
 
