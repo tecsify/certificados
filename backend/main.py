@@ -823,7 +823,7 @@ def validar_duplicados():
                         }
                     )
 
-        return jsonify({"message": "Usuarios duplicados", "errores": errores}), 200 if errores else 204
+        return jsonify({"message": "Usuarios duplicados", "errores": errores}), 200
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
