@@ -268,7 +268,12 @@
             <hr>
             <br>
             <div class="col-2"></div>
-            <div class="row justify-content-center col-8" id="certificates">
+            <div class="row justify-content-center">
+                <div class="col"></div>
+                <div class="col-10" id="certificates">
+
+                </div>
+                <div class="col"></div>
                 <!-- Certificados se mostrarán aquí como tarjetas de Bootstrap -->
             </div>
             <div class="col-2"></div>
