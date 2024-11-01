@@ -793,7 +793,7 @@ def verificar_certificado_csv():
                         }
                     )
 
-        return jsonify({"message": "Certificados validados con éxito.", "errores": errores}), 201
+        return jsonify({"message": "Certificados validados con éxito.", "errores": errores, "validos": validos}), 201
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
