@@ -273,11 +273,12 @@
             <br>
             <div class="col-2"></div>
             <div class="row justify-content-center">
-            <!-- Campo de búsqueda -->
-            <input type="text" id="buscador" placeholder="Buscar certificados..." onkeyup="buscarCertificados()" class="form-control" style="margin-bottom: 10px; padding: 5px; width: 80%;">
+                <!-- Campo de búsqueda -->
+                <div class="col"></div>
+                <input type="text" id="buscador" placeholder="Buscar certificados..." onkeyup="buscarCertificados()" class="form-control" style="margin-bottom: 10px; padding: 5px; width: 80%;">
 
-            <br>
-            <div class="col"></div>
+                <br>
+
                 <div class="row col-10" id="certificates">
 
                 </div>
