@@ -797,34 +797,41 @@ def verificar_certificado_csv():
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
-@app.route(host + "/validar_duplicados", methods=["POST"])
-def validar_duplicados():
+@app.route(host + "/validar_correos_tabla", methods=["POST"])
+def validar_correos_tabla():
     try:
-        # Obtén todos los usuarios y agrúpalos por correo
+        # Obtener todos los usuarios de la tabla
         usuarios = Usuarios.query.all()
-        correos = {}
         errores = []
 
+        # Expresión regular para validar el formato del correo
+        regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
         for usuario in usuarios:
-            if usuario.correo in correos:
-                correos[usuario.correo].append(usuario)
-            else:
-                correos[usuario.correo] = [usuario]
+            correo = usuario.correo
+            
+            # Verificar si el correo es None o vacío
+            if not correo:
+                errores.append({"usuario_id": usuario.id, "error": "El correo no puede estar vacío.", "correo": usuario.correo})
+                continue
 
-        # Verifica si hay correos duplicados
-        for correo, lista_usuarios in correos.items():
-            errores.append({"correo": correo})
-            if len(lista_usuarios) > 1:
-                for usuario in lista_usuarios:
-                    errores.append(
-                        {
-                            "usuario_id": usuario.id,
-                            "usuario_correo": usuario.correo,
-                            "usuario_identificacion": usuario.identificacion,
-                        }
-                    )
+            # Verificar si hay espacios en blanco
+            if " " in correo:
+                errores.append({"usuario_id": usuario.id, "error": "El correo no debe contener espacios.", "correo": usuario.correo})
 
-        return jsonify({"message": "Usuarios duplicados", "errores": errores}), 200
+            # Verificar si el correo tiene espacios al final
+            if correo.endswith(" "):
+                errores.append({"usuario_id": usuario.id, "error": "El correo no debe terminar con espacios.", "correo": usuario.correo})
+
+            # Validar el formato del correo
+            if not re.match(regex, correo):
+                errores.append({"usuario_id": usuario.id, "error": "El correo no tiene un formato válido.", "correo": usuario.correo})
+
+        # Retornar los errores si existen
+        if errores:
+            return jsonify({"message": "Errores encontrados en los correos", "errores": errores}), 400
+
+        return jsonify({"message": "Todos los correos son válidos."}), 200
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
