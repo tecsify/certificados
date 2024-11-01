@@ -376,14 +376,14 @@
                                         '<div class="card h-100 efecto_certi">' +
                                         '<a href="/certificado/' + certificado.id + '">' +
                                         '<img src="https://certificados.tecsify.com/backend/diploma/'+ certificado.id +'" class="card-img-top" alt="Certificado de '+certificado.nombre_certificado+'"> ' +
-                                        '<div class="card-body d-flex flex-column">' +
+                                        '</a><div class="card-body d-flex flex-column">' +
                                         '<h6 class="card-title">' + certificado.nombre_certificado + '</h6>' +
                                         '<p class="card-text">Evento: ' + certificado.evento + '<br>Fecha de Certificado: ' + fechaFormateada + '</p>' +
                                         '<div class="mt-auto text-center"> <!-- Agrega mt-auto y text-center para alinear el botón al final y centrado -->' +
                                         '<a href="/certificado/' + certificado.id + '" class="btn btn-primary" target="_blank">Ver Certificado</a>' +
                                         '</div>' +
                                         '</div>' +
-                                        '</a></div>'
+                                        '</div>'
                                     );
                                     certificatesContainer.append(card);
 
