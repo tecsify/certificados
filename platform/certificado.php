@@ -362,7 +362,7 @@ if ($response) {
                         echo "</div>";
                         echo "<div id='datos-cert' class='col-md-7' style='padding-top: 1rem;padding-left: 2rem;'> ";
                         echo "<h2>Datos del Certificado:</h2>";
-
+                        echo "<hr>";
                         echo "<p>Nombre: <span class='titulo'>" . $data['datos_usuario']['nombre'] . "</span></p>";
                         echo "<p>Código único de Certificado:<span class='titulo' id='codigo_certificado'> " . $data['certificados'][0]['id'] . "</span></p>";
                         echo "<p>Nombre del Certificado: <span id='nombre_certificado' name='nombre_certificado' class='titulo'>" . $data['certificados'][0]['nombre_certificado'] . "</span></p>";
