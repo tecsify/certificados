@@ -824,7 +824,7 @@ def validar_duplicados():
             if len(row["nombre"]) < 3 or len(row["identificacion"]) < 3:
                 continue
             usuarios = Usuarios.query.filter(Usuarios.correo == row["correo"]).all()
-            if usuarios.count() > 1:
+            if len(usuarios) > 1:
                 for usuario in usuarios:
                     errores.append(
                         {
