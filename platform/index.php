@@ -239,7 +239,7 @@
                         <br class='brsalto'>
                         <h5 class="badge badge-primary-soft font-w-6">En Tecsify somos</h5>
                         <br>
-                        <h2 class="display-6" >
+                        <h2 class="display-6">
                             ¡Tecnología que transforma <br><span id='texto-cambiante'>vidas!</span>
                         </h2>
                         <p>Nuestros certificados están respaldados por más de 150 alianzas estrategícas en más de 10 paises de Latinoamérica</p>
@@ -269,7 +269,10 @@
             <p id="nombre-usuario"></p>
             <p id="correo-usuario"></p>
             <p>¡Felicidades! tienes un total de: <span style="color: rgba(3,3,153)" id="span_cantidad">0</span> certificados aprobados por Tecsify</p>
+            <br>
 
+            <!-- Campo de búsqueda -->
+            <input type="text" id="buscador" placeholder="Buscar certificados..." onkeyup="buscarCertificados()" class="form-control" style="margin-bottom: 20px; padding: 5px; width: 80%;">
             <hr>
             <br>
             <div class="col-2"></div>
@@ -332,6 +335,28 @@
                 .deleteAll()
                 .start();
 
+            function buscarCertificados() {
+                // Obtiene el valor del campo de búsqueda
+                var input = document.getElementById('buscador');
+                var filter = input.value.toLowerCase();
+
+                // Obtiene todas las tarjetas de certificados
+                var certificates = document.getElementsByClassName('cardcert');
+
+                // Recorre cada tarjeta y verifica si coincide con el término de búsqueda
+                Array.from(certificates).forEach(function(card) {
+                    var titulo = card.querySelector('.card-title').textContent.toLowerCase();
+                    var evento = card.querySelector('.card-text').textContent.toLowerCase();
+
+                    // Muestra la tarjeta si coincide con el título o el evento
+                    if (titulo.includes(filter) || evento.includes(filter)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
 
             $(document).ready(function() {
                 // Escucha el envío del formulario
@@ -380,7 +405,7 @@
                                     card.html(
                                         '<div class="card h-100 efecto_certi" style="border-radius:0.9rem;">' +
                                         '<a href="/certificado/' + certificado.id + '">' +
-                                        '<img style="border-radius:0.58rem;" src="https://certificados.tecsify.com/backend/diploma/'+ certificado.id +'" class="card-img-top" alt="Certificado de '+certificado.nombre_certificado+'"> ' +
+                                        '<img style="border-radius:0.58rem;" src="https://certificados.tecsify.com/backend/diploma/' + certificado.id + '" class="card-img-top" alt="Certificado de ' + certificado.nombre_certificado + '"> ' +
                                         '</a><div class="card-body d-flex flex-column">' +
                                         '<h6 class="card-title">' + certificado.nombre_certificado + '</h6>' +
                                         '<p class="card-text">Evento: ' + certificado.evento + '<br>Fecha de Certificado: ' + fechaFormateada + '</p>' +
