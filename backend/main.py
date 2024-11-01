@@ -799,101 +799,6 @@ def verificar_certificado_csv():
 
 
 
-@app.route(host + "/importar_usuarios", methods=["POST"])
-def importar_usuarios():
-    try:
-        # Verifica si se ha enviado un archivo CSV
-        if "csv_file" not in request.files:
-            return jsonify({"message": "No se ha proporcionado un archivo CSV."}), 400
-
-        file = request.files["csv_file"]
-
-        # Verifica si el archivo tiene un nombre y es un archivo CSV
-        if file.filename == "" or not file.filename.endswith(".csv"):
-            return (
-                jsonify({"message": "Por favor, seleccione un archivo CSV válido."}),
-                400,
-            )
-
-        # Lee el contenido del archivo CSV
-        csv_data = io.StringIO(file.read().decode("utf-8"))
-        csv_reader = csv.DictReader(csv_data)
-
-        for row in csv_reader:
-            if len(row["nombre"]) < 3 or len(row["identificacion"]) < 3:
-                continue
-            # Encuentra el usuario por identificación o correo
-            usuario = Usuarios.query.filter(
-                (Usuarios.correo == row["correo"])
-                | (Usuarios.identificacion == row["identificacion"])
-            ).first()
-
-            if not usuario:
-                # Crea un nuevo usuario si no existe
-                nuevo_usuario = Usuarios(
-                    nombre=row["nombre"],
-                    correo=row["correo"],
-                    identificacion=row["identificacion"],
-                    telefono=row["telefono"],
-                    estado=1,
-                )
-                db.session.add(nuevo_usuario)
-
-        # Guarda los cambios en la base de datos
-        db.session.commit()
-        return jsonify({"message": "Certificados importados con éxito."}), 201
-    except Exception as e:
-        return jsonify({"message": str(e)}), 400
-
-
-@app.route(host + "/importar_uc", methods=["POST"])
-def importar_usuarios_certificados():
-    try:
-        # Verifica si se ha enviado un archivo CSV
-        if "csv_file" not in request.files:
-            return jsonify({"message": "No se ha proporcionado un archivo CSV."}), 400
-
-        file = request.files["csv_file"]
-
-        # Verifica si el archivo tiene un nombre y es un archivo CSV
-        if file.filename == "" or not file.filename.endswith(".csv"):
-            return (
-                jsonify({"message": "Por favor, seleccione un archivo CSV válido."}),
-                400,
-            )
-
-        # Lee el contenido del archivo CSV
-        csv_data = io.StringIO(file.read().decode("utf-8"))
-        csv_reader = csv.DictReader(csv_data)
-        errores = []
-        for row in csv_reader:
-            if len(row["nombre"]) < 3 or len(row["identificacion"]) < 3:
-                continue
-            # Encuentra el usuario por identificación o correo
-            usuario = Usuarios.query.filter(
-                (Usuarios.correo == row["correo"])
-                | (Usuarios.identificacion == row["identificacion"])
-            ).first()
-
-            if usuario:
-                creacion = crear_certificado_por_usuario(usuario.id,row['certificado_id'])
-                if creacion == 1 or creacion == 2:
-                    errores.append(
-                        {
-                            "usuario_id": usuario.id,
-                            "certificado_id": row['certificado_id'],
-                            "error": creacion
-                        }
-                    )
-                
-
-        return jsonify({"message": "Certificados importados con éxito.", "errores": errores}), 201
-    except Exception as e:
-        return jsonify({"message": str(e)}), 400
-
-
-
-
 @app.route(host + "/validar_duplicados", methods=["POST"])
 def validar_duplicados():
     try:
@@ -932,7 +837,6 @@ def validar_duplicados():
         return jsonify({"message": "Usuarios duplicados", "errores": errores}), 201
     except Exception as e:
         return jsonify({"message": str(e)}), 400
-
 
 #######################3 Beta Testers
 
