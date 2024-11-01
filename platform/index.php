@@ -281,7 +281,7 @@
                     <input type="text" id="buscador" placeholder="Buscar certificados..." onkeyup="buscarCertificados()" class="form-control" style="margin-bottom: 10px; padding: 5px;">
 
                     <br>
-                    <div id="certificates"></div>
+                    <div class="row" id="certificates"></div>
                 </div>
                 <div class="col"></div>
                 <!-- Certificados se mostrarán aquí como tarjetas de Bootstrap -->
