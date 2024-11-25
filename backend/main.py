@@ -254,7 +254,7 @@ def generar_diploma_ia(nombre, curso, id_cert):
 
     if len(charla_lines) == 1:
         text_y_charla = H / 1.82  # Inicializa la posición vertical
-        font_size_charla = 60
+        font_size_charla = 50
 
     # Dibuja cada línea de la charla en el diploma
     for line in charla_lines:
