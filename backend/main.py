@@ -247,7 +247,7 @@ def generar_diploma_ia(nombre, curso, id_cert):
 
     # Divide el texto de la charla en líneas según un ancho máximo
     charla_lines = textwrap.wrap(
-        text_charla, width=80
+        text_charla, width=70
     )  # Puedes ajustar el ancho máximo según tus necesidades
     text_y_charla = H / 1.87  # Inicializa la posición vertical
     font_size_charla = 40
