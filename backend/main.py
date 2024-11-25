@@ -681,7 +681,7 @@ def crear_certificado_por_usuario(usuario_id, certificado_id):
 
     if certificado_por_usuario_existente:
         generar_diploma_ia(
-        usuario.nombre, certificado.nombre_certificado, certificado.id
+        usuario.nombre, certificado.nombre_certificado, certificado_por_usuario_existente.id
     )
         return 2 #"El usuario ya tiene este certificado"
 
