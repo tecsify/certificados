@@ -11,6 +11,7 @@ import csv
 from datetime import datetime
 import io
 from sqlalchemy import desc
+
 app = Flask(__name__)
 CORS(app)
 host = "/backend"
@@ -57,10 +58,11 @@ class CertificadosPorUsuario(db.Model):
     certificado_id = db.Column(db.Integer, db.ForeignKey("certificados.id"))
     usuario = db.relationship("Usuarios", backref="certificados_asociados")
     certificado = db.relationship("Certificados", backref="usuarios_asociados")
-    
+
     @classmethod
     def count_certificados(cls, usuario_id):
         return cls.query.filter_by(usuario_id=usuario_id).count()
+
 
 class BetaTesters(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -68,14 +70,8 @@ class BetaTesters(db.Model):
     correo = db.Column(db.String(100), nullable=False)
     fecha_registro = db.Column(db.Date, nullable=False)
     estado = db.Column(db.Integer)
-    
-    def __init__(
-        self,
-        nombre,
-        correo,
-        estado,
-        fecha_registro
-    ):
+
+    def __init__(self, nombre, correo, estado, fecha_registro):
         self.nombre = nombre
         self.correo = correo
         self.estado = estado
@@ -84,7 +80,6 @@ class BetaTesters(db.Model):
 
 with app.app_context():
     db.create_all()
-
 
 
 def generar_diploma_foro_ia(nombre, curso, id_cert):
@@ -132,7 +127,6 @@ def generar_diploma_foro_ia(nombre, curso, id_cert):
 
     # Dibuja el nombre en el diploma
     image_editable.text((text_x, text_y), text, (255, 255, 255), font=font)
-
 
     # Calcula las coordenadas para los textos adicionales en la parte inferior
     x0, x1, text_width_cert_1, text_height_cert_1 = font_3.getbbox(texto_cert_1)
@@ -208,10 +202,6 @@ def generar_diploma_ia(nombre, curso, id_cert):
 
     text = " ".join([n.capitalize() for n in nombres])
 
-
-   
-
-
     # Ajusta el tamaño de la fuente del nombre si es demasiado ancho
     while font.getbbox(text)[2] > W:
         max_font_size -= 5
@@ -226,7 +216,6 @@ def generar_diploma_ia(nombre, curso, id_cert):
 
     # Dibuja el nombre en el diploma
     image_editable.text((text_x, text_y), text, (255, 255, 255), font=font)
-
 
     # Calcula las coordenadas para los textos adicionales en la parte inferior
     x0, x1, text_width_cert_1, text_height_cert_1 = font_3.getbbox(texto_cert_1)
@@ -245,8 +234,7 @@ def generar_diploma_ia(nombre, curso, id_cert):
         (text_x_cert_2, text_y_cert_2), texto_cert_2, (255, 255, 255), font=font_3
     )
 
-
- # Calcula las coordenadas para centrar el texto de la charla
+    # Calcula las coordenadas para centrar el texto de la charla
     text_charla = curso
 
     # Divide el texto de la charla en líneas según un ancho máximo
@@ -271,7 +259,6 @@ def generar_diploma_ia(nombre, curso, id_cert):
         text_y_charla += (
             text_height_charla  # Ajusta la posición vertical para la siguiente línea
         )
-
 
     # Genera el código QR
     qr = qrcode.QRCode(
@@ -300,9 +287,6 @@ def generar_diploma_ia(nombre, curso, id_cert):
     empty_img.save(ruta_completa, quality=95)
 
     return ruta_completa  # Devuelve la ruta donde se guardó el diploma
-
-
-
 
 
 def generar_diploma(nombre, charla, id_cert):
@@ -622,6 +606,7 @@ def obtener_certificado_por_uuid(certificado_id):
         )
     return jsonify({"message": "Certificado no encontrado"}), 404
 
+
 # Ruta para obtener información de un CertificadoPorUsuario por su UUID
 @app.route(host + "/certificados_por_correo", methods=["POST"])
 def obtener_certificado_por_correo():
@@ -634,13 +619,14 @@ def obtener_certificado_por_correo():
 
     # Busca los certificados del usuario, ordenados por fecha descendente
     certificado_por_usuario = (
-        CertificadosPorUsuario.query
-        .join(Certificados)  # Unir con la tabla Certificados
+        CertificadosPorUsuario.query.join(
+            Certificados
+        )  # Unir con la tabla Certificados
         .filter(CertificadosPorUsuario.usuario_id == usuario.id)
         .order_by(desc(Certificados.fecha))  # Orden descendente por fecha de emisión
         .all()
     )
-    
+
     if not certificado_por_usuario:
         return jsonify({"message": "Este usuario no tiene certificados"}), 404
 
@@ -652,7 +638,7 @@ def obtener_certificado_por_correo():
         "id": usuario.id,
         "total_certificados": total_certificados,
     }
-    
+
     for certificado in certificado_por_usuario:
         data_cert = Certificados.query.filter_by(id=certificado.certificado_id).first()
         if data_cert:
@@ -676,7 +662,7 @@ def crear_certificado_por_usuario(usuario_id, certificado_id):
     certificado = Certificados.query.filter_by(id=certificado_id).first()
 
     if usuario is None or certificado is None:
-        return 1 #"Usuario o certificado no encontrado"
+        return 1  # "Usuario o certificado no encontrado"
 
     # Verifica si el usuario ya tiene este certificado
     certificado_por_usuario_existente = CertificadosPorUsuario.query.filter_by(
@@ -684,7 +670,7 @@ def crear_certificado_por_usuario(usuario_id, certificado_id):
     ).first()
 
     if certificado_por_usuario_existente:
-        return 2 #"El usuario ya tiene este certificado"
+        return 2  # "El usuario ya tiene este certificado"
 
     while True:
         # Generar un nuevo UUID
@@ -714,7 +700,7 @@ def crear_certificado_por_usuario(usuario_id, certificado_id):
         usuario.nombre, certificado.nombre_certificado, diploma_id
     )
 
-    return 3 #exito
+    return 3  # exito
 
 
 @app.route(host + "/diploma/<uuid>")
@@ -818,7 +804,7 @@ def importar_usuarios():
 
         # Guarda los cambios en la base de datos
         db.session.commit()
-        return jsonify({"message": "Certificados importados con éxito."}), 201
+        return jsonify({"message": "Usuarios importados con éxito."}), 201
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
@@ -843,6 +829,7 @@ def importar_usuarios_certificados():
         csv_data = io.StringIO(file.read().decode("utf-8"))
         csv_reader = csv.DictReader(csv_data)
         errores = []
+        creaciones = []
         for row in csv_reader:
             if len(row["nombre"]) < 3 or len(row["identificacion"]) < 3:
                 continue
@@ -853,22 +840,38 @@ def importar_usuarios_certificados():
             ).first()
 
             if usuario:
-                creacion = crear_certificado_por_usuario(usuario.id,row['certificado_id'])
+                creacion = crear_certificado_por_usuario(
+                    usuario.id, row["certificado_id"]
+                )
                 if creacion == 1 or creacion == 2:
                     errores.append(
                         {
                             "usuario_id": usuario.id,
-                            "certificado_id": row['certificado_id'],
-                            "error": creacion
+                            "certificado_id": row["certificado_id"],
+                            "error": creacion,
                         }
                     )
-                
+                else:
+                    creaciones.append(
+                        {
+                            "usuario_id": usuario.id,
+                            "certificado_id": row["certificado_id"],
+                        }
+                    )
 
-        return jsonify({"message": "Certificados importados con éxito.", "errores": errores}), 201
+        return (
+            jsonify(
+                {
+                    "message": "Certificados creados con exito.",
+                    "errores": errores,
+                    "creaciones": creaciones,
+                    "total": len(creaciones),
+                }
+            ),
+            201,
+        )
     except Exception as e:
         return jsonify({"message": str(e)}), 400
-
-
 
 
 @app.route(host + "/verificar_usuarios", methods=["POST"])
@@ -902,7 +905,11 @@ def verificar_certificado_csv():
             ).first()
 
             if usuario:
-                certi = CertificadosPorUsuario.query.filter_by(usuario_id=usuario.id).filter_by(certificado_id=row["certificado_id"]).first()
+                certi = (
+                    CertificadosPorUsuario.query.filter_by(usuario_id=usuario.id)
+                    .filter_by(certificado_id=row["certificado_id"])
+                    .first()
+                )
                 if not certi:
                     errores.append(
                         {
@@ -917,9 +924,19 @@ def verificar_certificado_csv():
                         }
                     )
 
-        return jsonify({"message": "Certificados validados con éxito.", "errores": errores, "validos": validos}), 201
+        return (
+            jsonify(
+                {
+                    "message": "Certificados validados con éxito.",
+                    "errores": errores,
+                    "validos": validos,
+                }
+            ),
+            201,
+        )
     except Exception as e:
         return jsonify({"message": str(e)}), 400
+
 
 @app.route(host + "/validar_correos_tabla", methods=["POST"])
 def validar_correos_tabla():
@@ -929,31 +946,63 @@ def validar_correos_tabla():
         errores = []
 
         # Expresión regular para validar el formato del correo
-        regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
         for usuario in usuarios:
             correo = usuario.correo
-            
+
             # Verificar si el correo es None o vacío
             if not correo:
-                errores.append({"usuario_id": usuario.id, "error": "El correo no puede estar vacío.", "correo": usuario.correo})
+                errores.append(
+                    {
+                        "usuario_id": usuario.id,
+                        "error": "El correo no puede estar vacío.",
+                        "correo": usuario.correo,
+                    }
+                )
                 continue
 
             # Verificar si hay espacios en blanco
             if " " in correo:
-                errores.append({"usuario_id": usuario.id, "error": "El correo no debe contener espacios.", "correo": usuario.correo})
+                errores.append(
+                    {
+                        "usuario_id": usuario.id,
+                        "error": "El correo no debe contener espacios.",
+                        "correo": usuario.correo,
+                    }
+                )
 
             # Verificar si el correo tiene espacios al final
             if correo.endswith(" "):
-                errores.append({"usuario_id": usuario.id, "error": "El correo no debe terminar con espacios.", "correo": usuario.correo})
+                errores.append(
+                    {
+                        "usuario_id": usuario.id,
+                        "error": "El correo no debe terminar con espacios.",
+                        "correo": usuario.correo,
+                    }
+                )
 
             # Validar el formato del correo
             if not re.match(regex, correo):
-                errores.append({"usuario_id": usuario.id, "error": "El correo no tiene un formato válido.", "correo": usuario.correo})
+                errores.append(
+                    {
+                        "usuario_id": usuario.id,
+                        "error": "El correo no tiene un formato válido.",
+                        "correo": usuario.correo,
+                    }
+                )
 
         # Retornar los errores si existen
         if errores:
-            return jsonify({"message": "Errores encontrados en los correos", "errores": errores}), 400
+            return (
+                jsonify(
+                    {
+                        "message": "Errores encontrados en los correos",
+                        "errores": errores,
+                    }
+                ),
+                400,
+            )
 
         return jsonify({"message": "Todos los correos son válidos."}), 200
     except Exception as e:
@@ -964,7 +1013,7 @@ def validar_correos_tabla():
 
 
 def validar_creacion_bt(correo):
-        # Verificar si el correo electrónico ya está en uso
+    # Verificar si el correo electrónico ya está en uso
     if BetaTesters.query.filter_by(correo=correo).first():
         return (
             jsonify(
@@ -976,6 +1025,8 @@ def validar_creacion_bt(correo):
         )
 
     return False  # El usuario no existe, pasa la validación
+
+
 @app.route(host + "/beta_testers", methods=["POST"])
 def nuevo_beta_testers():
     try:
@@ -983,7 +1034,7 @@ def nuevo_beta_testers():
         correo = str(request.json["correo"]).lower()
         estado = 1
         fecha_registro = datetime.now()
-        
+
         if not all([nombre, correo]):
             return (
                 jsonify(
@@ -1029,6 +1080,7 @@ def nuevo_beta_testers():
         response.status_code = 500
         return response
 
+
 @app.route(host + "/get_beta_testers", methods=["GET"])
 def get_btesters():
     usuarios = BetaTesters.query.all()
@@ -1043,7 +1095,6 @@ def get_btesters():
             }
         )
     return jsonify(resultados)
-
 
 
 if __name__ == "__main__":
