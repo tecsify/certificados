@@ -70,7 +70,6 @@ if ($response) {
 
         gtag('config', 'G-WYMJ964TTK');
     </script>
-    <!-- End Google Tag Manager -->
     <!-- meta tags -->
     <meta charset="utf-8">
     <meta name="keywords" content="Tecsify Latinoamerica, ¡Tecnologia que empodera!" />
@@ -110,10 +109,6 @@ if ($response) {
 
 
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3SK4Z6F"
-            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
     <!-- page wrapper start -->
 
     <div class="page-wrapper">

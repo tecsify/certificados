@@ -14,7 +14,6 @@
 
         gtag('config', 'G-WYMJ964TTK');
     </script>
-    <!-- End Google Tag Manager -->
     <!-- meta tags -->
     <meta charset="utf-8">
     <meta name="keywords" content="Tecsify Latinoamerica, ¡Tecnologia que empodera!" />
@@ -51,8 +50,6 @@
 
 <body>
     <div class="page-wrapper">
-
-
         <!-- preloader start -->
 
         <div id="ht-preloader">
