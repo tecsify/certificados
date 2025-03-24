@@ -289,6 +289,10 @@ def generar_diploma_ia(nombre, curso, id_cert):
     return ruta_completa  # Devuelve la ruta donde se guardó el diploma
 
 
+def generar_diploma_aurora(nombre, curso, id_cert):
+
+
+
 def generar_diploma(nombre, charla, id_cert):
     texto_cert_1 = f"https://certificados.tecsify.com/certificado/{id_cert}"
     texto_cert_2 = f"Código único de certificación: {id_cert}"
@@ -563,7 +567,7 @@ def obtener_certificado_por_usuario(certificado_id):
     usuario = certificado_por_usuario.usuario
     certificado = certificado_por_usuario.certificado
 
-    diploma = generar_diploma_ia(
+    diploma = generar_diploma_aurora(
         usuario.nombre, certificado.nombre_certificado, certificado_por_usuario.id
     )
 
@@ -696,7 +700,7 @@ def crear_certificado_por_usuario(usuario_id, certificado_id):
     diploma_id = (
         nuevo_certificado_por_usuario.id
     )  # Utiliza el ID del CertificadoPorUsuario como ID del diploma
-    rutadiploma = generar_diploma_ia(
+    rutadiploma = generar_diploma_aurora(
         usuario.nombre, certificado.nombre_certificado, diploma_id
     )
 
