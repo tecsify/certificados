@@ -290,6 +290,126 @@ def generar_diploma_ia(nombre, curso, id_cert):
 
 
 def generar_diploma_aurora(nombre, curso, id_cert):
+    
+    texto_cert_1 = f"https://certificados.tecsify.com/certificado/{id_cert}"
+    texto_cert_2 = f"Código único de certificación: {id_cert}"
+
+    # Obtén la ruta del directorio actual
+    toFilePath = os.path.dirname(os.path.abspath(__file__))
+    arial_font = os.path.join(toFilePath, "roboto.ttf")
+
+    # Carga la imagen base del diploma
+    empty_img = Image.open(os.path.join(toFilePath, "DIPLOMAAURORA.jpg"))
+
+    # Configuración de fuentes y tamaño de texto
+    max_font_size = 75
+    font = ImageFont.truetype(arial_font, max_font_size)
+    font_2 = ImageFont.truetype(arial_font, 40)
+    font_3 = ImageFont.truetype(arial_font, 20)
+
+    # Obtiene las dimensiones de la imagen base
+    W, H = empty_img.size
+
+    # Calcula las coordenadas para centrar el texto del nombre
+    text = str(nombre)
+    nombres = nombre.split(" ")
+    if len(nombres) > 5:
+        nombres = nombres[:2] + nombres[-2:]
+
+    text = " ".join([n.capitalize() for n in nombres])
+
+
+   
+
+
+    # Ajusta el tamaño de la fuente del nombre si es demasiado ancho
+    while font.getbbox(text)[2] > W:
+        max_font_size -= 5
+        font = ImageFont.truetype(arial_font, max_font_size)
+
+    x0, x1, text_width, text_height = font.getbbox(text)
+    text_x = (W - text_width) / 2
+    text_y = H / 2.72
+
+    # Crea un objeto ImageDraw para dibujar en la imagen
+    image_editable = ImageDraw.Draw(empty_img)
+
+    # Dibuja el nombre en el diploma
+    image_editable.text((text_x, text_y), text, (255, 255, 255), font=font)
+
+
+    # Calcula las coordenadas para los textos adicionales en la parte inferior
+    x0, x1, text_width_cert_1, text_height_cert_1 = font_3.getbbox(texto_cert_1)
+    text_x_cert_1 = (W - text_width_cert_1) / 2
+    text_y_cert_1 = H - text_height_cert_1 - 47  # Ajusta la posición vertical
+
+    x0, x1, text_width_cert_2, text_height_cert_2 = font_3.getbbox(texto_cert_2)
+    text_x_cert_2 = (W - text_width_cert_2) / 2
+    text_y_cert_2 = text_y_cert_1 + text_height_cert_1
+
+    # Dibuja los textos adicionales en la parte inferior del diploma
+    image_editable.text(
+        (text_x_cert_1, text_y_cert_1), texto_cert_1, (255, 255, 255), font=font_3
+    )
+    image_editable.text(
+        (text_x_cert_2, text_y_cert_2), texto_cert_2, (255, 255, 255), font=font_3
+    )
+
+
+ # Calcula las coordenadas para centrar el texto de la charla
+    text_charla = ""
+
+    # Divide el texto de la charla en líneas según un ancho máximo
+    charla_lines = textwrap.wrap(
+        text_charla, width=70
+    )  # Puedes ajustar el ancho máximo según tus necesidades
+    text_y_charla = H / 1.97  # Inicializa la posición vertical
+    font_size_charla = 40
+
+    if len(charla_lines) == 1:
+        text_y_charla = H / 1.914  # Inicializa la posición vertical
+        font_size_charla = 50
+
+    # Dibuja cada línea de la charla en el diploma
+    for line in charla_lines:
+        font_2 = ImageFont.truetype(arial_font, font_size_charla)
+        x0, x1, text_width_charla, text_height_charla = font_2.getbbox(line)
+        text_x_charla = (W - text_width_charla) / 2
+        image_editable.text(
+            (text_x_charla, text_y_charla), line, (255, 255, 255), font=font_2
+        )
+        text_y_charla += (
+            text_height_charla  # Ajusta la posición vertical para la siguiente línea
+        )
+
+
+    # Genera el código QR
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=6,
+        border=4,
+    )
+    qr.add_data(texto_cert_1)
+    qr.make(fit=True)
+    qr_img = qr.make_image(fill_color="#5b8d84", back_color="#fff")
+    qr_img = qr_img.resize((200, 200))
+
+    # Pega el código QR en la imagen
+    empty_img.paste(qr_img, (W - 250, H - 250))
+
+    result_file = "result.pdf"
+    empty_img.save(result_file)
+
+    ruta_guardado = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "certificados"
+    )  # Calcula la ruta completa para guardar el archivo en la carpeta "certificados"
+    ruta_completa = os.path.join(ruta_guardado, f"{id_cert}.jpg")
+
+    # Guarda el diploma como imagen JPG en la carpeta "certificados"
+    empty_img.save(ruta_completa, quality=95)
+
+    return ruta_completa  # Devuelve la ruta donde se guardó el diploma
 
 
 
