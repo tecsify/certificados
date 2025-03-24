@@ -58,7 +58,24 @@ if ($response) {
 <html lang="es">
 
 <head>
-
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-M3SK4Z6F');
+    </script>
+    <!-- End Google Tag Manager -->
     <!-- meta tags -->
     <meta charset="utf-8">
     <meta name="keywords" content="Tecsify Latinoamerica, ¡Tecnologia que empodera!" />
@@ -98,7 +115,10 @@ if ($response) {
 
 
 <body>
-
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3SK4Z6F"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <!-- page wrapper start -->
 
     <div class="page-wrapper">
@@ -291,7 +311,8 @@ if ($response) {
                 #LinkedProfile {
                     display: none !important;
                 }
-                #datos-cert{
+
+                #datos-cert {
                     padding-left: 0px !important;
                 }
 
@@ -405,7 +426,7 @@ if ($response) {
     <div>
         <hr>
         <div class="align-items-center" style="text-align: center;">
-        <small>Para cualquier información adicional puedes contactar a certificados@tecsify.com</small>
+            <small>Para cualquier información adicional puedes contactar a certificados@tecsify.com</small>
 
             <h5>¡Siguenos en nuestras redes sociales!</h5>
             <style>
